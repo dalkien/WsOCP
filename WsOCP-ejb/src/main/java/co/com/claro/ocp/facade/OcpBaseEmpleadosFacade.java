@@ -24,6 +24,13 @@ public class OcpBaseEmpleadosFacade implements OcpBaseEmpleadosIFacade {
     }
 
     @Override
+    public List<OcpBaseEmpleados> allEmpleadosByProject(List<Long> ids) {
+        List<OcpBaseEmpleados> empleados = new ArrayList<>();
+        empleados = baseEmpleadosController.allEmpleadosByProject(ids);
+        return empleados ;
+    }
+
+    @Override
     public void creaEmpleado(OcpBaseEmpleados empleado){
         try{
             baseEmpleadosController.create(empleado);

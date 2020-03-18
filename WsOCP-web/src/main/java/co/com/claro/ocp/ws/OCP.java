@@ -103,6 +103,28 @@ public class OCP {
         return ocpResponse ;
     }
 
+    @GET
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("getEmployedByProject/{ids}")
+    public EmpleadosOcpResponse getEmployed(@QueryParam("id") List<Long>  codEmpleado){
+        EmpleadosOcpResponse ocpResponse = new EmpleadosOcpResponse();
+        List<OcpBaseEmpleados> empleados = new ArrayList<>();
+        List<OcpBaseEmpleados> empleado = new ArrayList<>();
+        GenericResponse response = new GenericResponse();
+        try{
+            empleado = ocpBaseEmpleadosIFacade.allEmpleadosByProject(codEmpleado);
+            response = genericRta("00","Ok", "Ok");
+        }catch (Exception e){
+            e.printStackTrace();
+            response = genericRta("99","No se pudo recuperar empleado", e.getMessage());
+        }
+        empleados.addAll(empleado);
+        ocpResponse.setEmpleados(empleados);
+        ocpResponse.setResponse(response);
+        return ocpResponse ;
+    }
+
     public GenericResponse genericRta(String code, String descripcion, String message){
         GenericResponse response = new GenericResponse();
         response.setMessageCode (message);

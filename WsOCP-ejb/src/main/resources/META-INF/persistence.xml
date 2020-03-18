@@ -3,6 +3,7 @@
   <persistence-unit name="OCPConnexion" transaction-type="JTA">
     <jta-data-source>jdbc/OCPConnexion</jta-data-source>
     <class>co.com.claro.ocp.entity.OcpBaseEmpleados</class>
+    <class>co.com.claro.ocp.entity.OcpProyecto</class>
     <class>co.com.claro.ocp.entity.OcpParametros</class>
     <class>co.com.claro.ocp.entity.OcpParametrosRelacion</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>

@@ -6,7 +6,29 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c3b8f5d-80db-4a03-875a-447bf666f603" name="Default Changelist" comment="" />
+    <list default="true" id="7c3b8f5d-80db-4a03-875a-447bf666f603" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpProyectoController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpProyectoDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpProyecto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpProyectoFacade.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpProyectoIFacade.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPProyectosRest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpBaseEmpleadosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpBaseEmpleadosController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpBaseEmpleados.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpBaseEmpleados.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosIFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosIFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/META-INF/persistence.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpBaseEmpleadosController.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpBaseEmpleadosController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpBaseEmpleados.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpBaseEmpleados.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpBaseEmpleadosIFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpBaseEmpleadosIFacade.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/ws/OCP.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/ws/OCP.class" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/WsOCP-ear/target/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -18,6 +40,20 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
@@ -26,8 +62,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpParametros.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="4" column="22" selection-start-line="2" selection-end-line="4" selection-end-column="22" />
+            <state relative-caret-position="103">
+              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#0#29#1" expanded="true" />
+                <element signature="e#0#64#1" expanded="true" />
+                <element signature="e#0#64#1" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpParametrosRelacionController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="91">
+              <caret line="24" column="98" selection-start-line="22" selection-start-column="43" selection-end-line="24" selection-end-column="98" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -36,22 +87,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpParametrosFacade.java">
+        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="37" column="12" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="170">
+              <caret line="127" column="50" lean-forward="true" selection-start-line="127" selection-start-column="50" selection-end-line="127" selection-end-column="50" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpParametrosRelacionController.java">
+        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="529">
-              <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
+            <state relative-caret-position="51">
+              <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpProyectoController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="310">
+              <caret line="69" column="29" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -62,8 +119,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpParametrosRelacion.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
+            <state relative-caret-position="276">
               <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#0#37#1" expanded="true" />
+                <element signature="e#0#72#1" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpProyectoFacade.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="259">
+              <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -72,19 +143,39 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml">
+        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpProyectoIFacade.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="56" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
+            <state relative-caret-position="306">
+              <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/util/EJBConstants.java">
+        <entry file="file://$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPProyectosRest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+            <state relative-caret-position="117">
+              <caret line="37" column="5" lean-forward="true" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpProyecto.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="226">
+              <caret line="186" lean-forward="true" selection-start-line="186" selection-end-line="186" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#0#27#0" expanded="true" />
+                <element signature="e#0#62#1" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -102,7 +193,16 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>ocp</find>
+      <find>baseEmpleadosDao</find>
+      <find>empleado</find>
     </findStrings>
+    <replaceStrings>
+      <replace>proyectoDao</replace>
+      <replace>proyecto</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -113,16 +213,11 @@
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpBaseEmpleadosRepository.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/repository/OcpBaseEmpleadosRepository.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/service/OcpBaseEmpleadosService.java" />
-        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpBaseEmpleados.java" />
-        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosIFacade.java" />
-        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.java" />
         <option value="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/dto/genericResponse.java" />
         <option value="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/dto/GenericResponse.java" />
         <option value="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/dto/EmpleadosOcpResponse.java" />
-        <option value="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCP.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpBaseEmpleadosDao.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpParametrosDao.java" />
-        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpBaseEmpleadosController.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpParametros.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpParametrosFacade.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpParametrosIFacade.java" />
@@ -130,9 +225,21 @@
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpParametrosRelacionDao.java" />
         <option value="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/dto/ListasParametros.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/util/EJBConstants.java" />
-        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpParametrosRelacionController.java" />
         <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpParametrosRelacion.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpBaseEmpleados.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosIFacade.java" />
+        <option value="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCP.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpBaseEmpleadosController.java" />
+        <option value="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/ApplicationConfig.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpProyectoDao.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpProyectoController.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpProyectoFacade.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpProyectoIFacade.java" />
+        <option value="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPProyectosRest.java" />
+        <option value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpProyecto.java" />
       </list>
     </option>
   </component>
@@ -167,11 +274,57 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="WsOCP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WsOCP" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WsOCP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WsOCP" type="462c0819:PsiDirectoryNode" />
+              <item name="WsOCP-ejb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WsOCP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WsOCP" type="462c0819:PsiDirectoryNode" />
+              <item name="WsOCP-ejb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WsOCP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WsOCP" type="462c0819:PsiDirectoryNode" />
+              <item name="WsOCP-ejb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WsOCP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WsOCP" type="462c0819:PsiDirectoryNode" />
+              <item name="WsOCP-ejb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WsOCP" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WsOCP" type="462c0819:PsiDirectoryNode" />
+              <item name="WsOCP-ejb" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="META-INF" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
@@ -297,16 +450,18 @@
       <workItem from="1584055787162" duration="546000" />
       <workItem from="1584110653756" duration="13138000" />
       <workItem from="1584387657867" duration="680000" />
+      <workItem from="1584477354119" duration="5205000" />
+      <workItem from="1584486171831" duration="10898000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71580000" />
+    <option name="totallyTimeSpent" value="87683000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4988399" visible="true" weight="0.2065053" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4988399" visible="true" weight="0.2912254" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -320,7 +475,7 @@
       <window_info anchor="bottom" id="Application Servers" order="0" weight="0.30278233" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" />
-      <window_info anchor="bottom" id="Run" order="3" />
+      <window_info active="true" anchor="bottom" id="Run" order="3" visible="true" weight="0.40752864" />
       <window_info anchor="bottom" id="Debug" order="4" weight="0.38952535" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
@@ -340,7 +495,7 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="right" id="JSF" order="5" />
       <window_info anchor="right" id="Maven" order="6" weight="0.09531014" />
-      <window_info anchor="right" id="Database" order="7" />
+      <window_info anchor="right" id="Database" order="7" weight="0.32980332" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Theme Preview" order="9" />
       <window_info anchor="right" id="CDI" order="10" />
@@ -374,14 +529,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/ApplicationConfig.java" />
     <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/repository/OcpBaseEmpleadosRepository.java" />
     <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/service/OcpBaseEmpleadosService.java" />
     <entry file="file://$PROJECT_DIR$/pom.xml">
@@ -406,16 +553,6 @@
     <entry file="file://$PROJECT_DIR$/WsOCP-web/src/main/webapp/WEB-INF/beans.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCP.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/dto/EmpleadosOcpResponse.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -436,60 +573,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpBaseEmpleados.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" column="22" lean-forward="true" selection-start-line="7" selection-end-line="10" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpBaseEmpleadosController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosIFacade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" selection-start-line="7" selection-end-line="7" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpParametrosIFacade.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpBaseEmpleadosDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -538,57 +625,204 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpParametros.java">
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/util/EJBConstants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="4" column="22" selection-start-line="2" selection-end-line="4" selection-end-column="22" />
+        <state relative-caret-position="312">
+          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpBaseEmpleadosIFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="19" column="72" selection-start-line="19" selection-start-column="72" selection-end-line="19" selection-end-column="72" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/ApplicationConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="32" column="46" lean-forward="true" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpBaseEmpleadosDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="30" column="5" lean-forward="true" selection-start-line="14" selection-end-line="30" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCP.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="66" column="27" lean-forward="true" selection-start-line="66" selection-start-column="27" selection-end-line="66" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpProyectoDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1932">
+          <caret line="123" column="27" lean-forward="true" selection-start-line="123" selection-start-column="27" selection-end-line="123" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpBaseEmpleados.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="18" column="13" lean-forward="true" selection-start-line="18" selection-end-line="18" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#0#32#1" expanded="true" />
+            <element signature="e#0#67#1" expanded="true" />
+            <element signature="e#0#66#1" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpParametrosFacade.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="37" column="12" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
+        <state relative-caret-position="187">
+          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpBaseEmpleadosController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="920">
+          <caret line="60" column="5" lean-forward="true" selection-start-line="16" selection-end-line="60" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpProyectoController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="69" column="29" selection-start-line="69" selection-start-column="29" selection-end-line="69" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpProyectoFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="53" column="4" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpProyectoIFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPProyectosRest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="37" column="5" lean-forward="true" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpParametros.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#0#29#1" expanded="true" />
+            <element signature="e#0#64#1" expanded="true" />
+            <element signature="e#0#64#1" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpParametrosRelacion.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
+        <state relative-caret-position="276">
           <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#0#37#1" expanded="true" />
+            <element signature="e#0#72#1" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml">
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpProyecto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="56" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/util/EJBConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="30" selection-start-line="32" selection-start-column="30" selection-end-line="32" selection-end-column="30" />
+        <state relative-caret-position="226">
+          <caret line="186" lean-forward="true" selection-start-line="186" selection-end-line="186" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#0#62#1" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpParametrosRelacionController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="59" column="1" selection-start-line="59" selection-start-column="1" selection-end-line="59" selection-end-column="1" />
+        <state relative-caret-position="91">
+          <caret line="24" column="98" selection-start-line="22" selection-start-column="43" selection-end-line="24" selection-end-column="98" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="127" column="50" lean-forward="true" selection-start-line="127" selection-start-column="50" selection-end-line="127" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="21" lean-forward="true" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="38" />
         </state>
       </provider>
     </entry>

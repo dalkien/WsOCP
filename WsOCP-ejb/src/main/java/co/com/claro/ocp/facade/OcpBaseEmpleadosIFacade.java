@@ -16,4 +16,6 @@ public interface OcpBaseEmpleadosIFacade  {
     public void actualizaEmpleado(OcpBaseEmpleados empleado);
 
     public OcpBaseEmpleados getEmpleado(Long codEmpleado);
+
+    public List<OcpBaseEmpleados> allEmpleadosByProject(List<Long> ids);
 }

@@ -20,6 +20,8 @@ import java.util.Date;
          @NamedQuery(name = "OcpBaseEmpleados.findAll", query = "SELECT q FROM OcpBaseEmpleados q")
         ,@NamedQuery(name = "OcpBaseEmpleados.findByCodEmpleado", query = "SELECT q FROM OcpBaseEmpleados q " +
                 "where q.codEmpleado = :codEmpleado")
+        ,@NamedQuery(name = "OcpBaseEmpleados.findListByProject", query = "SELECT q FROM OcpBaseEmpleados q " +
+                "WHERE q.codEmpleado in (:valores)")
 })
 public class OcpBaseEmpleados {
 

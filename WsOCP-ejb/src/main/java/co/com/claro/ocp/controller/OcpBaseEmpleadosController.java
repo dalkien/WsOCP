@@ -63,10 +63,24 @@ public class OcpBaseEmpleadosController {
     public OcpBaseEmpleados empleadoByCodEmpleado(Long codEmpleado){
         OcpBaseEmpleados empleado = new OcpBaseEmpleados();
         try{
-            empleado = (OcpBaseEmpleados) this.entityManager.createNamedQuery("OcpBaseEmpleados.findByCodEmpleado")
+            empleado =  this.entityManager
+                    .createNamedQuery("OcpBaseEmpleados.findByCodEmpleado",OcpBaseEmpleados.class)
                     .setParameter("codEmpleado",codEmpleado)
                     .getSingleResult();
         }catch (Exception e){ e.printStackTrace();}
         return empleado;
+    }
+
+    public List<OcpBaseEmpleados> allEmpleadosByProject(List<Long> ids){
+        List<OcpBaseEmpleados> empleados = new ArrayList<>();
+        try{
+            empleados = this.entityManager
+                    .createNamedQuery("OcpBaseEmpleados.findListByProject")
+                    .setParameter("valores",ids )
+                    .getResultList();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return empleados;
     }
 }
