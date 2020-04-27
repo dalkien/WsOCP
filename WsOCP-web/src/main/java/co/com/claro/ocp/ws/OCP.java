@@ -12,6 +12,7 @@ import co.com.claro.ocp.entity.OcpBaseEmpleados;
 
 import co.com.claro.ocp.facade.OcpBaseEmpleadosIFacade;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -38,6 +39,9 @@ public class OCP {
             throws JsonProcessingException {
         GenericResponse response = new GenericResponse();
         try{
+            Gson gson = new Gson();
+            String jsons =gson.toJson(empleado);
+            System.out.println(jsons);
             ocpBaseEmpleadosIFacade.creaEmpleado(empleado);
             response = genericRta("00","Ok", "Ok");
         }catch (Exception e){
