@@ -1,7 +1,10 @@
 package co.com.claro.ocp.facade;
 
 import co.com.claro.ocp.controller.OcpParametrosController;
+import co.com.claro.ocp.controller.OcpParametrosRelacionController;
 import co.com.claro.ocp.entity.OcpParametros;
+import co.com.claro.ocp.util.InformacionParametros;
+import co.com.claro.ocp.util.ListasParametros;
 
 import javax.ejb.*;
 import java.util.ArrayList;
@@ -13,6 +16,31 @@ public class OcpParametrosFacade implements OcpParametrosIFacade {
 
     @EJB
     OcpParametrosController parametrosController;
+
+    @EJB
+    OcpParametrosRelacionController relacionController;
+
+    @Override
+    public List<InformacionParametros>  infParameters(Long valor){
+        List<InformacionParametros> informacion =  new ArrayList<>();
+        try{
+            informacion = relacionController.infParameters(valor);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return informacion;
+    }
+
+    @Override
+    public List<ListasParametros> listasParametros(){
+        List<ListasParametros> parametros = new ArrayList<>();
+        try {
+            parametros = relacionController.listSubParameters();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return parametros;
+    }
 
     @Override
     public List<OcpParametros> allParameter(){

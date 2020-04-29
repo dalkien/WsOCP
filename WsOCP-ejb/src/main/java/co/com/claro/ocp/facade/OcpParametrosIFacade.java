@@ -2,6 +2,8 @@ package co.com.claro.ocp.facade;
 
 
 import co.com.claro.ocp.entity.OcpParametros;
+import co.com.claro.ocp.util.InformacionParametros;
+import co.com.claro.ocp.util.ListasParametros;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -15,4 +17,7 @@ public interface OcpParametrosIFacade {
 
     public List<OcpParametros> listParameter(List<Long> ids);
 
+    public List<ListasParametros> listasParametros();
+
+    public List<InformacionParametros> infParameters(Long valor);
 }

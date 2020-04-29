@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(OCP.class);
         resources.add(OCPProyectosRest.class);
+        resources.add(OCPParametrosRest.class);
     }
     
 }
