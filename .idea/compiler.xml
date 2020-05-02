@@ -2,19 +2,22 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Wsocp-ejb" />
         <module name="WsOCP-ear" />
         <module name="WsOCP-web" />
-        <module name="Wsocp-ejb" />
+        <module name="WsOCP-ejb" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="WsOCP-web" options="-endorseddirs C:\Users\madrigalo\Documents\github\WsOCP\WsOCP-web\target/endorsed" />
+      <module name="WsOCP-ejb" options="-endorseddirs C:\Users\Dalkien\Documents\github\WsOCP\WsOCP-ejb\target/endorsed" />
+      <module name="WsOCP-web" options="-endorseddirs C:\Users\Dalkien\Documents\github\WsOCP\WsOCP-web\target/endorsed" />
       <module name="Wsocp-ejb" options="-endorseddirs C:\Users\madrigalo\Documents\github\WsOCP\WsOCP-ejb\target/endorsed" />
     </option>
   </component>

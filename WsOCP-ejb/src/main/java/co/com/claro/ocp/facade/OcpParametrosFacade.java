@@ -69,4 +69,15 @@ public class OcpParametrosFacade implements OcpParametrosIFacade {
         return parametros;
     }
 
+    @Override
+    public OcpParametros crearParametro(OcpParametros param) {
+        OcpParametros parametros = new OcpParametros();
+        try{
+            parametrosController.create(param);
+            parametros = parametrosController.findParam(param.getNombreParametro());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return parametros;
+    }
 }

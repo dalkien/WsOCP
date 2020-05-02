@@ -116,5 +116,4 @@ public class OcpParametrosRelacionController {
         }catch (Exception e){e.printStackTrace();}
         return relacions;
     }
-
 }

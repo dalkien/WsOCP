@@ -77,4 +77,17 @@ public class OcpParametrosController {
         return listParametros;
     }
 
+    public OcpParametros findParam(String param){
+        OcpParametros parametros = new OcpParametros();
+        try{
+            parametros = (OcpParametros) this.entityManager
+                    .createNamedQuery("OcpParametros.findByName")
+                    .setParameter("nombreParametro",param)
+                    .getSingleResult();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return parametros;
+    }
+
 }

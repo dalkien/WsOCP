@@ -13,6 +13,8 @@ import java.util.Date;
         "where q.idParametro = :idParametro")
         ,@NamedQuery(name = "OcpParametros.findByRange", query = "SELECT q FROM OcpParametros q " +
         "where q.idParametro in ( :valores)")
+        ,@NamedQuery(name = "OcpParametros.findByName", query = "SELECT q FROM OcpParametros q " +
+        "where q.nombreParametro = :nombreParametro" )
 })
 public class OcpParametros {
     @Id

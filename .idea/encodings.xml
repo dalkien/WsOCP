@@ -3,6 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/WsOCP-ear" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WsOCP-ejb" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WsOCP-ejb/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WsOCP-ejb/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WsOCP-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WsOCP-web/src/main/java" charset="UTF-8" />
   </component>
 </project>
