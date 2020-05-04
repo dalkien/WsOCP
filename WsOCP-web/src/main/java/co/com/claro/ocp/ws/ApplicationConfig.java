@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(OCP.class);
         resources.add(OCPProyectosRest.class);
         resources.add(OCPParametrosRest.class);
+        resources.add(OCPNovedadesRest.class);
     }
     
 }
