@@ -1,6 +1,7 @@
 package co.com.claro.ocp.entity;
 
 import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,49 +10,58 @@ import java.util.Date;
 @Table(name = "OCP_PARAMETROS")
 @NamedQueries({
         @NamedQuery(name = "OcpParametros.findAll", query = "SELECT q FROM OcpParametros q")
-        ,@NamedQuery(name = "OcpParametros.findByidParametro", query = "SELECT q FROM OcpParametros q " +
+        , @NamedQuery(name = "OcpParametros.findByidParametro", query = "SELECT q FROM OcpParametros q " +
         "where q.idParametro = :idParametro")
-        ,@NamedQuery(name = "OcpParametros.findByRange", query = "SELECT q FROM OcpParametros q " +
+        , @NamedQuery(name = "OcpParametros.findByRange", query = "SELECT q FROM OcpParametros q " +
         "where q.idParametro in ( :valores)")
-        ,@NamedQuery(name = "OcpParametros.findByName", query = "SELECT q FROM OcpParametros q " +
-        "where q.nombreParametro = :nombreParametro" )
+        , @NamedQuery(name = "OcpParametros.findByName", query = "SELECT q FROM OcpParametros q " +
+        "where q.nombreParametro = :nombreParametro")
 })
 public class OcpParametros {
     @Id
     @Column(name = "ID_PARAMETRO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idParametro;
 
     @Column(name = "NOMBRE_PARAMETRO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String nombreParametro;
 
     @Column(name = "ESTADO_PARAMETRO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long estadoParametro;
 
     @Column(name = "FEC_CREACION", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCreacion;
 
     @Column(name = "COMENTARIOS", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String comentarios;
 
     @Column(name = "TIPO_PARAMETRO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long tipoParametro;
 
     @Column(name = "USUARIO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 
     @Column(name = "VALOR1", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valor1;
 
     @Column(name = "VALOR2", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String valor2;
 
     public OcpParametros() {

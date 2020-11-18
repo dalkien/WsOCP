@@ -17,81 +17,98 @@ import java.util.Date;
 @Entity
 @Table(name = "OCP_BASE_EMPLEADOS")
 @NamedQueries({
-         @NamedQuery(name = "OcpBaseEmpleados.findAll", query = "SELECT q FROM OcpBaseEmpleados q")
-        ,@NamedQuery(name = "OcpBaseEmpleados.findByCodEmpleado", query = "SELECT q FROM OcpBaseEmpleados q " +
-                "where q.codEmpleado = :codEmpleado")
-        ,@NamedQuery(name = "OcpBaseEmpleados.findListByProject", query = "SELECT q FROM OcpBaseEmpleados q " +
-                "WHERE q.codEmpleado in (:valores)")
+        @NamedQuery(name = "OcpBaseEmpleados.findAll", query = "SELECT q FROM OcpBaseEmpleados q")
+        , @NamedQuery(name = "OcpBaseEmpleados.findByCodEmpleado", query = "SELECT q FROM OcpBaseEmpleados q " +
+        "where q.codEmpleado = :codEmpleado")
+        , @NamedQuery(name = "OcpBaseEmpleados.findListByProject", query = "SELECT q FROM OcpBaseEmpleados q " +
+        "WHERE q.codEmpleado in (:valores)")
 })
 public class OcpBaseEmpleados {
 
     @Id
     @Column(name = "COD_EMPLEADO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long codEmpleado;
 
     @Column(name = "CEDULA", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long cedula;
 
     @Column(name = "NOMBRES", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String nombres;
 
     @Column(name = "FECHA_INGRERO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fehcaIngrero;
 
     @Column(name = "ING_RET", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String ingRet;
 
     @Column(name = "TIPO_CONTRATO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String tipoContrato;
 
     @Column(name = "ROL", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String rol;
 
     @Column(name = "TIPO_SALARIO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String tipoSalario;
 
     @Column(name = "SALARIO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long salario;
 
     @Column(name = "BENEFICIO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long beneficio;
 
     @Column(name = "EQUIPO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long equipo;
 
     @Column(name = "DESCUENTO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String descuento;
 
     @Column(name = "SALARIO_TOTAL", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long salarioTotal;
 
     @Column(name = "COSTO_EST_MES", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long costoEstMes;
 
     @Column(name = "OBSERVACIONES", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String observaciones;
 
     @Column(name = "FEC_CARGUE", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCargue;
 
     @Column(name = "USUARIO", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 
     public OcpBaseEmpleados() {

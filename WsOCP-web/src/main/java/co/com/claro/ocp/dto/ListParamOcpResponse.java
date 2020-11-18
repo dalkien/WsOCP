@@ -7,10 +7,12 @@ import lombok.Setter;
 import java.util.List;
 
 public class ListParamOcpResponse {
-    @Getter @Setter
-    private List<ListasParametros> parametos ;
+    @Getter
+    @Setter
+    private List<ListasParametros> parametos;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private GenericResponse response;
 
     public ListParamOcpResponse() {

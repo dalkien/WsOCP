@@ -5,13 +5,16 @@ import lombok.Setter;
 
 public class GenericResponse {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String descripcion;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String messageCode;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String returnCode;
 
     public GenericResponse() {

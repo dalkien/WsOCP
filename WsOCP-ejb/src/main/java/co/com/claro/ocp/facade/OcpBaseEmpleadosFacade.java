@@ -20,37 +20,43 @@ public class OcpBaseEmpleadosFacade implements OcpBaseEmpleadosIFacade {
     public List<OcpBaseEmpleados> allEmpleados() {
         List<OcpBaseEmpleados> empleados = new ArrayList<>();
         empleados = baseEmpleadosController.allEmpleados();
-        return empleados ;
+        return empleados;
     }
 
     @Override
     public List<OcpBaseEmpleados> allEmpleadosByProject(List<Long> ids) {
         List<OcpBaseEmpleados> empleados = new ArrayList<>();
         empleados = baseEmpleadosController.allEmpleadosByProject(ids);
-        return empleados ;
+        return empleados;
     }
 
     @Override
-    public void creaEmpleado(OcpBaseEmpleados empleado){
-        try{
+    public void creaEmpleado(OcpBaseEmpleados empleado) {
+        try {
             baseEmpleadosController.create(empleado);
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void actualizaEmpleado(OcpBaseEmpleados empleado){
-        try{
+    public void actualizaEmpleado(OcpBaseEmpleados empleado) {
+        try {
             baseEmpleadosController.edit(empleado);
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public OcpBaseEmpleados getEmpleado(Long codEmpleado){
+    public OcpBaseEmpleados getEmpleado(Long codEmpleado) {
         OcpBaseEmpleados empleado = new OcpBaseEmpleados();
-        try{
-            empleado = baseEmpleadosController.empleadoByCodEmpleado(codEmpleado) ;
-        }catch (Exception e){e.printStackTrace();}
-        return  empleado;
+        try {
+            empleado = baseEmpleadosController.empleadoByCodEmpleado(codEmpleado);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return empleado;
     }
 
 }

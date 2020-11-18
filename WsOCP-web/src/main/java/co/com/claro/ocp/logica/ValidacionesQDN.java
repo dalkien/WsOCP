@@ -75,7 +75,7 @@ public class ValidacionesQDN {
                 if (part1.equals("msisdn") && !part2.isEmpty()) {
                     if (part2.startsWith("0")) {
                         erroneos.add(part1 + ": el valor inicial no puede ser 0");
-                    } else if (part2.length()!=10) {
+                    } else if (part2.length() != 10) {
                         erroneos.add(part1 + ": el valor debe contener 10 dígitos");
                     }
                 } else if (part1.equals("imsi") && !part2.isEmpty()) {

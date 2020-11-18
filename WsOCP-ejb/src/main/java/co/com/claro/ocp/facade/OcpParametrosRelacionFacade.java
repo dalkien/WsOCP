@@ -16,27 +16,27 @@ public class OcpParametrosRelacionFacade implements OcpParametrosRelacionIFacade
 
     @Override
     public void creaRelaParam(OcpParametrosRelacion relacion) {
-        try{
-        relacionController.create(relacion);
-        }catch (Exception e){
+        try {
+            relacionController.create(relacion);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void editaRelaParam(OcpParametrosRelacion relacion) {
-        try{
+        try {
             relacionController.edit(relacion);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public List<OcpParametrosRelacion> allRelaParam() {
-        try{
-            return relacionController.allParamRelations ();
-        }catch (Exception e){
+        try {
+            return relacionController.allParamRelations();
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

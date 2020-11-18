@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
  * @author omarMad
  */
 @javax.ws.rs.ApplicationPath("webresources")
@@ -34,5 +33,5 @@ public class ApplicationConfig extends Application {
         resources.add(OCPParametrosRest.class);
         resources.add(OCPNovedadesRest.class);
     }
-    
+
 }

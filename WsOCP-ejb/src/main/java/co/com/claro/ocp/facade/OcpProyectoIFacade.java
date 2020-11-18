@@ -12,7 +12,7 @@ public interface OcpProyectoIFacade {
 
     public void editProject(OcpProyecto proyecto);
 
-    public void  deleteProject(OcpProyecto proyecto);
+    public void deleteProject(OcpProyecto proyecto);
 
     public List<OcpProyecto> allProjects();
 

@@ -22,9 +22,9 @@ public class OcpParametrosRelacionController {
     @EJB
     OcpParametrosRelacionDao parametrosRelacionDao;
 
-    private final String QUERY_DISTINCT = "select distinct(a.id_parametro), "+
-                                  "b.nombre_parametro from ocp_parametros_relacion a,  ocp_parametros b  "+
-                                  "where a.id_parametro = b.id_parametro  order by  a.id_parametro";
+    private final String QUERY_DISTINCT = "select distinct(a.id_parametro), " +
+            "b.nombre_parametro from ocp_parametros_relacion a,  ocp_parametros b  " +
+            "where a.id_parametro = b.id_parametro  order by  a.id_parametro";
 
     private final String QUERY_PARAMETROS = "select a.ID_PARAMETRO parametro, a.ID_SUB_PARAMETRO subparametro , " +
             "(select OCP_PARAMETROS.NOMBRE_PARAMETRO from OCP_PARAMETROS where a.ID_SUB_PARAMETRO = OCP_PARAMETROS.ID_PARAMETRO ) nombre  , " +
@@ -44,76 +44,84 @@ public class OcpParametrosRelacionController {
     }
 
     public void edit(OcpParametrosRelacion parametro) {
-        try{
+        try {
             this.parametrosRelacionDao.setEntityManager(this.entityManager);
             this.parametrosRelacionDao.edit(parametro);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void delete(OcpParametrosRelacion parametro) {
-        try{
+        try {
             this.parametrosRelacionDao.setEntityManager(this.entityManager);
             this.parametrosRelacionDao.remove(parametro);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<ListasParametros> listSubParameters(){
+    public List<ListasParametros> listSubParameters() {
         List<ListasParametros> subParametetros = new ArrayList<>();
-        try{
+        try {
 //            subParametetros = this.entityManager
             List<Object[]> subParam = this.entityManager
                     .createNativeQuery(QUERY_DISTINCT).getResultList();
             for (Object[] result : subParam) {
                 BigDecimal val1 = (BigDecimal) result[0];
                 Long val2 = val1.longValue();
-                ListasParametros subparame =  new ListasParametros(val2 , (String) result[1]);
+                ListasParametros subparame = new ListasParametros(val2, (String) result[1]);
                 subParametetros.add(subparame);
             }
 
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return subParametetros;
     }
 
-    public List<InformacionParametros> infParameters(Long valor){
+    public List<InformacionParametros> infParameters(Long valor) {
         List<InformacionParametros> subParametetros = new ArrayList<>();
-        try{
+        try {
             List<Object[]> subPara = this.entityManager
                     .createNativeQuery(QUERY_PARAMETROS)
 //                    .setParameter(1,valor)
                     .getResultList();
-            for ( Object[] result : subPara) {
-                BigDecimal val1 = (BigDecimal) result[0] ;
-                BigDecimal val2 = (BigDecimal) result[1] ;
-                InformacionParametros subParame = new InformacionParametros(val1.longValue(),val2.longValue(),
+            for (Object[] result : subPara) {
+                BigDecimal val1 = (BigDecimal) result[0];
+                BigDecimal val2 = (BigDecimal) result[1];
+                InformacionParametros subParame = new InformacionParametros(val1.longValue(), val2.longValue(),
                         (String) result[2], (String) result[3]);
                 subParametetros.add(subParame);
             }
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return subParametetros;
     }
 
-    public List<OcpParametrosRelacion> allParamRelations(){
+    public List<OcpParametrosRelacion> allParamRelations() {
         List<OcpParametrosRelacion> relacions = new ArrayList<>();
         try {
             relacions = this.entityManager
                     .createNamedQuery("OcpParametrosRelacion.findAll")
                     .getResultList();
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return relacions;
     }
 
-    public OcpParametrosRelacion paramRelationsbyId(Long id){
+    public OcpParametrosRelacion paramRelationsbyId(Long id) {
         OcpParametrosRelacion relacions = new OcpParametrosRelacion();
         try {
             relacions = this.entityManager
                     .createNamedQuery("OcpParametrosRelacion.findByidParametro", OcpParametrosRelacion.class)
                     .setParameter("idParametro", id)
                     .getSingleResult();
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return relacions;
     }
 }

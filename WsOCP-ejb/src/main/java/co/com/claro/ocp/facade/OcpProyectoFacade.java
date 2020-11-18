@@ -16,46 +16,48 @@ public class OcpProyectoFacade implements OcpProyectoIFacade {
     OcpProyectoController proyectoController;
 
     @Override
-    public void createProject(OcpProyecto proyecto){
-        try{
+    public void createProject(OcpProyecto proyecto) {
+        try {
             proyectoController.create(proyecto);
-        }catch (Exception e){e.printStackTrace();}
-    }
-
-    @Override
-    public void editProject(OcpProyecto proyecto){
-        try{
-            proyectoController.edit(proyecto);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void  deleteProject(OcpProyecto proyecto){
+    public void editProject(OcpProyecto proyecto) {
+        try {
+            proyectoController.edit(proyecto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteProject(OcpProyecto proyecto) {
         try {
             proyectoController.delete(proyecto);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public List<OcpProyecto> allProjects(){
+    public List<OcpProyecto> allProjects() {
         List<OcpProyecto> proyectos = new ArrayList<>();
         try {
             proyectos = proyectoController.allProyectos();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return proyectos;
     }
 
-    public OcpProyecto projectById(Long id){
+    public OcpProyecto projectById(Long id) {
         OcpProyecto proyecto = new OcpProyecto();
-        try{
+        try {
             proyecto = proyectoController.proyectoById(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return proyecto;

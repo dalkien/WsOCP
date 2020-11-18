@@ -14,9 +14,11 @@ public class OcpBaseEmpleadosDao extends AbstractDao<OcpBaseEmpleados>
         implements Serializable {
     @PersistenceContext
     private EntityManager entityManager;
-    public OcpBaseEmpleadosDao(){}
 
-    public OcpBaseEmpleadosDao(EntityManager entityManager){
+    public OcpBaseEmpleadosDao() {
+    }
+
+    public OcpBaseEmpleadosDao(EntityManager entityManager) {
         super(OcpBaseEmpleados.class);
         this.entityManager = entityManager;
     }
@@ -30,55 +32,72 @@ public class OcpBaseEmpleadosDao extends AbstractDao<OcpBaseEmpleados>
         this.entityManager = entityManager;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long codEmpleado;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long cedula;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String nombres;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fehcaIngrero;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String ingRet;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String tipoContrato;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String rol;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String tipoSalario;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long salario;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long beneficio;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long equipo;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String descuento;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long salarioTotal;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long costoEstMes;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String observaciones;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCargue;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 
 }

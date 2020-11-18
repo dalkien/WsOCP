@@ -17,7 +17,6 @@ public abstract class AbstractDao<T> {
     private Class<T> entityClass;
 
     /**
-     *
      * @param entityClass
      */
     public AbstractDao(Class<T> entityClass) {
@@ -28,13 +27,11 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @return EntityManager
      */
     protected abstract EntityManager getEntityManager();
 
     /**
-     *
      * @param entity
      * @throws Exception
      */
@@ -53,7 +50,6 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @param entity
      * @throws Exception
      */
@@ -72,7 +68,6 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @param entity
      * @throws Exception
      */
@@ -86,7 +81,6 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @param id
      * @return T
      */
@@ -95,7 +89,6 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @return List
      */
     public List<T> findAll() {
@@ -106,7 +99,6 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @param range
      * @return List
      */
@@ -121,7 +113,6 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @return int
      */
     public int count() {
@@ -134,7 +125,6 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @param entity
      * @return boolean
      */
@@ -162,7 +152,6 @@ public abstract class AbstractDao<T> {
     }
 
     /**
-     *
      * @param e
      * @param entity
      * @throws Exception

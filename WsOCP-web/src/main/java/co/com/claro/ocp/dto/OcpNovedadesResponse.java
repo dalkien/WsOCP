@@ -12,25 +12,33 @@ import java.util.List;
 @AllArgsConstructor
 public class OcpNovedadesResponse {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long codigo;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String tipo;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<OcpNovBhe> novBhes;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<OcpNovIncLin> novIncLins;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<OcpNovOtros> novOtros;
-    @Getter @Setter
+    @Getter
+    @Setter
     private OcpBaseEmpleados empleado;
-    @Getter @Setter
+    @Getter
+    @Setter
     private OcpProyecto proyectos;
-    @Getter @Setter
+    @Getter
+    @Setter
     private OcpParametros desProyecto;
 
 //    @Getter @Setter

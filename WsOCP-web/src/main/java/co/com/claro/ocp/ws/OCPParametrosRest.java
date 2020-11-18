@@ -29,18 +29,18 @@ public class OCPParametrosRest {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("getAllListParam")
-    public ListParamOcpResponse getAllListParam(){
+    public ListParamOcpResponse getAllListParam() {
         ListParamOcpResponse respuesta = new ListParamOcpResponse();
         List<ListasParametros> param = new ArrayList<>();
-        GenericResponse response = new GenericResponse("OK", "OK","00");
-        try{
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
+        try {
             param = parametrosIFacade.listasParametros();
-            if (param.size() <= 0 ){
-                response = new GenericResponse("Por favor validar selección", "Nok","99");
+            if (param.size() <= 0) {
+                response = new GenericResponse("Por favor validar selección", "Nok", "99");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            response = new GenericResponse(e.getMessage(), "Nok","99");
+            response = new GenericResponse(e.getMessage(), "Nok", "99");
         }
         respuesta.setParametos(param);
         respuesta.setResponse(response);
@@ -51,18 +51,18 @@ public class OCPParametrosRest {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("paramDesc")
-    public InfoParamOcpResponse getAllListParamDesc(@QueryParam("id") Long id){
+    public InfoParamOcpResponse getAllListParamDesc(@QueryParam("id") Long id) {
         InfoParamOcpResponse respuesta = new InfoParamOcpResponse();
         List<InformacionParametros> param = new ArrayList<>();
-        GenericResponse response = new GenericResponse("OK", "OK","00");
-        try{
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
+        try {
             param = parametrosIFacade.infParameters(id);
-            if (param.size() <= 0 ){
-                response = new GenericResponse("Por favor validar selección", "Nok","99");
+            if (param.size() <= 0) {
+                response = new GenericResponse("Por favor validar selección", "Nok", "99");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            response = new GenericResponse(e.getMessage(), "Nok","99");
+            response = new GenericResponse(e.getMessage(), "Nok", "99");
         }
         respuesta.setParaDesc(param);
         respuesta.setResponse(response);

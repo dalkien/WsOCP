@@ -14,9 +14,11 @@ public class OcpProyectoDao extends AbstractDao<OcpProyecto> implements Serializ
 
     @PersistenceContext
     private EntityManager entityManager;
-    public OcpProyectoDao(){}
 
-    public OcpProyectoDao(EntityManager entityManager){
+    public OcpProyectoDao() {
+    }
+
+    public OcpProyectoDao(EntityManager entityManager) {
         super(OcpProyecto.class);
         this.entityManager = entityManager;
     }
@@ -30,96 +32,127 @@ public class OcpProyectoDao extends AbstractDao<OcpProyecto> implements Serializ
         this.entityManager = entityManager;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long codProyecto;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idCliente;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String alcance;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fechaInicio;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long duracion;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fechaFin;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idMoneda;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valorFormalHost;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idTipoTarifa;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valorTarifa;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valorTarifa2;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valorTarifa3;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idEstadoProyecto;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idCategoria;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idDireccion;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idLineaNegocio;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idTipoProyecto;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idServicio;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idTipoServicio;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idDirector;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idGerente;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idTipoAlianza;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idClasificacionVenta;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long costoPlaneado;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long margenPlanaedo;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long ftePlaneado;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long factorICA;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long factorProvIndem;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String comentarios;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCargue;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 }

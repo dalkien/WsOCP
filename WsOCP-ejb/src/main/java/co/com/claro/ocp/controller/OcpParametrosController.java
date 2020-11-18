@@ -29,62 +29,68 @@ public class OcpParametrosController {
     }
 
     public void edit(OcpParametros parametro) {
-        try{
+        try {
             this.parametrosDao.setEntityManager(this.entityManager);
             this.parametrosDao.edit(parametro);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void delete(OcpParametros parametro) {
-        try{
+        try {
             this.parametrosDao.setEntityManager(this.entityManager);
             this.parametrosDao.remove(parametro);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<OcpParametros> allParameters(){
+    public List<OcpParametros> allParameters() {
         List<OcpParametros> parametros = new ArrayList<>();
-        try{
+        try {
             parametros = this.entityManager
                     .createNamedQuery("OcpParametros.findAll")
                     .getResultList();
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return parametros;
     }
 
-    public OcpParametros parameterById(Long id){
+    public OcpParametros parameterById(Long id) {
         OcpParametros parametro = new OcpParametros();
-        try{
-            parametro =  this.entityManager
-                    .createNamedQuery("OcpParametros.findByidParametro",OcpParametros.class)
+        try {
+            parametro = this.entityManager
+                    .createNamedQuery("OcpParametros.findByidParametro", OcpParametros.class)
                     .getSingleResult();
-        }catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return parametro;
     }
 
-    public List<OcpParametros> listParameters(List<Long> subParam){
+    public List<OcpParametros> listParameters(List<Long> subParam) {
         List<OcpParametros> listParametros = new ArrayList<>();
-        try{
+        try {
             listParametros = this.entityManager
                     .createNamedQuery("OcpParametros.findByRange")
-                    .setParameter("valores",subParam)
+                    .setParameter("valores", subParam)
                     .getResultList();
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return listParametros;
     }
 
-    public OcpParametros findParam(String param){
+    public OcpParametros findParam(String param) {
         OcpParametros parametros = new OcpParametros();
-        try{
+        try {
             parametros = (OcpParametros) this.entityManager
                     .createNamedQuery("OcpParametros.findByName")
-                    .setParameter("nombreParametro",param)
+                    .setParameter("nombreParametro", param)
                     .getSingleResult();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return parametros;

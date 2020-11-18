@@ -5,16 +5,20 @@ import lombok.Setter;
 
 public class InformacionParametros {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long parametro;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long subparametro;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String nombre;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String comentario;
 
     public InformacionParametros() {

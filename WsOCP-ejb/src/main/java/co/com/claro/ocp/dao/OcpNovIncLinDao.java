@@ -20,7 +20,7 @@ public class OcpNovIncLinDao extends AbstractDao<OcpNovIncLin>
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OcpNovIncLinDao(EntityManager entityManager){
+    public OcpNovIncLinDao(EntityManager entityManager) {
         super(OcpNovIncLin.class);
         this.entityManager = entityManager;
     }
@@ -34,46 +34,60 @@ public class OcpNovIncLinDao extends AbstractDao<OcpNovIncLin>
         this.entityManager = entityManager;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long codEmpleado;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valor;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long anio;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long mes;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCargue;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long egm;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long lm;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long atep;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long lr;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long lnr;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long luto;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long paternidad;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long sanciones;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 
 }

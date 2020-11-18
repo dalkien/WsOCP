@@ -14,69 +14,83 @@ import java.util.Date;
 @NoArgsConstructor
 @NamedQueries({
         @NamedQuery(name = "OcpNovIncLin.findAll", query = "SELECT q FROM OcpNovIncLin q")
-        ,@NamedQuery(name = "OcpNovIncLin.findEmp", query = "SELECT q FROM OcpNovIncLin q " +
+        , @NamedQuery(name = "OcpNovIncLin.findEmp", query = "SELECT q FROM OcpNovIncLin q " +
         "where q.codEmpleado =:codEmpleado")
-        ,@NamedQuery(name = "OcpNovIncLin.findRang", query = "SELECT q FROM OcpNovIncLin q " +
+        , @NamedQuery(name = "OcpNovIncLin.findRang", query = "SELECT q FROM OcpNovIncLin q " +
         "where q.mes =:mes and q.anio =:anio")
 })
 public class OcpNovIncLin {
     @Id
     @Column(name = "COD_EMPLEADO")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long codEmpleado;
 
     @Column(name = "VALOR")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valor;
 
     @Id
     @Column(name = "ANIO")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long anio;
 
     @Id
     @Column(name = "MES")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long mes;
 
     @Column(name = "FEC_CARGUE")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCargue;
 
     @Column(name = "EGM")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long egm;
 
     @Column(name = "LM")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long lm;
 
     @Column(name = "ATEP")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long atep;
 
     @Column(name = "LR")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long lr;
 
     @Column(name = "LNR")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long lnr;
 
     @Column(name = "LUTO")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long luto;
 
     @Column(name = "PATERNIDAD")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long paternidad;
 
     @Column(name = "SANCIONES")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long sanciones;
 
     @Column(name = "USUARIO")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 
 }

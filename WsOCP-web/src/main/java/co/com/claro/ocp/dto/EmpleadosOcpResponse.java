@@ -8,10 +8,12 @@ import java.util.List;
 
 public class EmpleadosOcpResponse {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private GenericResponse response;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<OcpBaseEmpleados> empleados;
 
     public EmpleadosOcpResponse() {

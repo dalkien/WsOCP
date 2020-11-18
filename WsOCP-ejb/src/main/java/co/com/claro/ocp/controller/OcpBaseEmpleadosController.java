@@ -31,54 +31,56 @@ public class OcpBaseEmpleadosController {
     }
 
     public void edit(OcpBaseEmpleados empleado) {
-        try{
+        try {
             this.baseEmpleadosDao.setEntityManager(this.entityManager);
             this.baseEmpleadosDao.edit(empleado);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void delete(OcpBaseEmpleados empleado) {
-        try{
+        try {
             this.baseEmpleadosDao.setEntityManager(this.entityManager);
             this.baseEmpleadosDao.remove(empleado);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<OcpBaseEmpleados> allEmpleados(){
+    public List<OcpBaseEmpleados> allEmpleados() {
         List<OcpBaseEmpleados> empleados = new ArrayList<>();
-        try{
+        try {
             empleados = this.entityManager
                     .createNamedQuery("OcpBaseEmpleados.findAll")
                     .getResultList();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-    }
+        }
         return empleados;
     }
 
-    public OcpBaseEmpleados empleadoByCodEmpleado(Long codEmpleado){
+    public OcpBaseEmpleados empleadoByCodEmpleado(Long codEmpleado) {
         OcpBaseEmpleados empleado = new OcpBaseEmpleados();
-        try{
-            empleado =  this.entityManager
-                    .createNamedQuery("OcpBaseEmpleados.findByCodEmpleado",OcpBaseEmpleados.class)
-                    .setParameter("codEmpleado",codEmpleado)
+        try {
+            empleado = this.entityManager
+                    .createNamedQuery("OcpBaseEmpleados.findByCodEmpleado", OcpBaseEmpleados.class)
+                    .setParameter("codEmpleado", codEmpleado)
                     .getSingleResult();
-        }catch (Exception e){ e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return empleado;
     }
 
-    public List<OcpBaseEmpleados> allEmpleadosByProject(List<Long> ids){
+    public List<OcpBaseEmpleados> allEmpleadosByProject(List<Long> ids) {
         List<OcpBaseEmpleados> empleados = new ArrayList<>();
-        try{
+        try {
             empleados = this.entityManager
                     .createNamedQuery("OcpBaseEmpleados.findListByProject")
-                    .setParameter("valores",ids )
+                    .setParameter("valores", ids)
                     .getResultList();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return empleados;

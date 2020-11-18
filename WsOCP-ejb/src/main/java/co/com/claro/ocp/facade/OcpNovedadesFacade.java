@@ -28,54 +28,54 @@ public class OcpNovedadesFacade implements OcpNovedadesIFacade {
 
     @Override
     public void creaBhe(OcpNovBhe bhe) {
-        try{
+        try {
             bheController.create(bhe);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void creaOtros(OcpNovOtros otros) {
-        try{
+        try {
             otrosController.create(otros);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void creaIncLin(OcpNovIncLin incLin) {
-        try{
+        try {
             incLinController.create(incLin);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void editBhe(OcpNovBhe bhe) {
-        try{
+        try {
             bheController.edit(bhe);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void editOtros(OcpNovOtros otros) {
-        try{
+        try {
             otrosController.edit(otros);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void editIncLin(OcpNovIncLin incLin) {
-        try{
+        try {
             incLinController.edit(incLin);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -104,8 +104,8 @@ public class OcpNovedadesFacade implements OcpNovedadesIFacade {
     public List<OcpNovBhe> mesNovProBhe(Long anio, Long mes) {
         List<OcpNovBhe> data = new ArrayList<>();
         try {
-            data =  bheController.mes( anio,  mes);
-        }catch (Exception e){
+            data = bheController.mes(anio, mes);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return data;
@@ -115,8 +115,8 @@ public class OcpNovedadesFacade implements OcpNovedadesIFacade {
     public List<OcpNovOtros> mesNovEmpOtros(Long anio, Long mes) {
         List<OcpNovOtros> data = new ArrayList<>();
         try {
-            data =  otrosController.mes(anio,  mes);
-        }catch (Exception e){
+            data = otrosController.mes(anio, mes);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return data;
@@ -126,8 +126,8 @@ public class OcpNovedadesFacade implements OcpNovedadesIFacade {
     public List<OcpNovIncLin> mesNovIncLin(Long anio, Long mes) {
         List<OcpNovIncLin> data = new ArrayList<>();
         try {
-            data =  incLinController.mes(anio,  mes);
-        }catch (Exception e){
+            data = incLinController.mes(anio, mes);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return data;

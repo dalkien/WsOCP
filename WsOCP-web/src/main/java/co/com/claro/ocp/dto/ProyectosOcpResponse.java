@@ -7,10 +7,12 @@ import lombok.Setter;
 import java.util.List;
 
 public class ProyectosOcpResponse {
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<OcpProyecto> proyectos;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private GenericResponse response;
 
     public ProyectosOcpResponse() {

@@ -1,7 +1,6 @@
 package co.com.claro.ocp.util;
 
 /**
- *
  * @author omarMad
  */
 public class EJBConstants {

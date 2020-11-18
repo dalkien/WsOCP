@@ -5,17 +5,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ProyectoCreate {
-    @Getter @Setter
+    @Getter
+    @Setter
     private OcpProyecto proyecto;
 
-    @Getter @Setter
-    private String descripcion ;
+    @Getter
+    @Setter
+    private String descripcion;
 
-    @Getter @Setter
-    private String ocContrato ;
+    @Getter
+    @Setter
+    private String ocContrato;
 
-    @Getter @Setter
-        private String ocNumContrato ;
+    @Getter
+    @Setter
+    private String ocNumContrato;
 
     public ProyectoCreate() {
     }

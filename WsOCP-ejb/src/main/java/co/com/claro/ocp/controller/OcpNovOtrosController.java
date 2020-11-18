@@ -31,31 +31,31 @@ public class OcpNovOtrosController {
     }
 
     public void edit(OcpNovOtros ocpNovOtros) {
-        try{
+        try {
             this.ocpNovOtrosDao.setEntityManager(this.entityManager);
             this.ocpNovOtrosDao.edit(ocpNovOtros);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void delete(OcpNovOtros ocpNovOtros) {
-        try{
+        try {
             this.ocpNovOtrosDao.setEntityManager(this.entityManager);
             this.ocpNovOtrosDao.remove(ocpNovOtros);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<OcpNovOtros> mes(Long anio, Long mes ){
+    public List<OcpNovOtros> mes(Long anio, Long mes) {
         List<OcpNovOtros> otros = new ArrayList<>();
         try {
             otros = entityManager.createNamedQuery("OcpNovOtros.findRang")
                     .setParameter("anio", anio)
                     .setParameter("mes", mes)
                     .getResultList();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return otros;

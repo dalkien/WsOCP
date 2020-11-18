@@ -41,29 +41,29 @@ public class OCPProyectosRest {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("getAllProyects")
-    public ProyectosOcpResponse getAllProyects(){
+    public ProyectosOcpResponse getAllProyects() {
         ProyectosOcpResponse respuesta = new ProyectosOcpResponse();
-        GenericResponse response = new GenericResponse("OK", "OK","00");
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
         List<OcpProyecto> proyectos = new ArrayList<>();
         try {
             proyectos = proyectoIFacade.allProjects();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            response = new GenericResponse(e.getMessage(), "Nok","99");
+            response = new GenericResponse(e.getMessage(), "Nok", "99");
         }
         respuesta.setProyectos(proyectos);
         respuesta.setResponse(response);
-        return respuesta ;
+        return respuesta;
     }
 
     @POST
     @Consumes("application/json")
     @Produces("application/json")
     @Path("createProyect")
-    public GenericResponse createProyect(ProyectoCreate proyecto){
-        GenericResponse response = new GenericResponse("OK", "OK","00");
+    public GenericResponse createProyect(ProyectoCreate proyecto) {
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
         try {
-            OcpParametros parametros =  new OcpParametros();
+            OcpParametros parametros = new OcpParametros();
             OcpParametrosRelacion relacion = new OcpParametrosRelacion();
             parametros.setComentarios(proyecto.getDescripcion());
             parametros.setEstadoParametro(1L);
@@ -73,7 +73,7 @@ public class OCPProyectosRest {
             parametros.setUsuario(proyecto.getProyecto().getUsuario());
             parametros.setValor1(0L);
             parametros.setValor2("N/A");
-            OcpParametros parametros2 =  new OcpParametros();
+            OcpParametros parametros2 = new OcpParametros();
             parametros2 = parametrosIFacade.crearParametro(parametros);
 
             relacion.setIdSubParametro(parametros2.getIdParametro());
@@ -84,25 +84,25 @@ public class OCPProyectosRest {
             relacion.setFechaCreacion(new Date());
             relacionIFacade.creaRelaParam(relacion);
             proyectoIFacade.createProject(proyecto.getProyecto());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            response = new GenericResponse(e.getMessage(), "Nok","99");
+            response = new GenericResponse(e.getMessage(), "Nok", "99");
         }
-        return response ;
+        return response;
     }
 
     @PUT
     @Consumes("application/json")
     @Produces("application/json")
     @Path("editProyect")
-    public GenericResponse editProyect(OcpProyecto proyecto){
-        GenericResponse response = new GenericResponse("OK", "OK","00");
+    public GenericResponse editProyect(OcpProyecto proyecto) {
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
         try {
             proyectoIFacade.editProject(proyecto);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            response = new GenericResponse(e.getMessage(), "Nok","99");
+            response = new GenericResponse(e.getMessage(), "Nok", "99");
         }
-        return response ;
+        return response;
     }
 }

@@ -6,7 +6,7 @@ import javax.ejb.Local;
 import java.util.List;
 
 @Local
-public interface OcpBaseEmpleadosIFacade  {
+public interface OcpBaseEmpleadosIFacade {
 
 
     public List<OcpBaseEmpleados> allEmpleados();

@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -22,7 +23,7 @@ public class OcpNovBheDao extends AbstractDao<OcpNovBhe>
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OcpNovBheDao(EntityManager entityManager){
+    public OcpNovBheDao(EntityManager entityManager) {
         super(OcpNovBhe.class);
         this.entityManager = entityManager;
     }
@@ -36,31 +37,40 @@ public class OcpNovBheDao extends AbstractDao<OcpNovBhe>
         this.entityManager = entityManager;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idProyecto;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long codEmpleado;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long tipo;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valor;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long anio;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long mes;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String comentarios;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCargue;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 
 }

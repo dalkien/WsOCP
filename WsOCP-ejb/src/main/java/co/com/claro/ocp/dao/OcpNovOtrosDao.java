@@ -19,7 +19,7 @@ public class OcpNovOtrosDao extends AbstractDao<OcpNovOtros> implements Serializ
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OcpNovOtrosDao(EntityManager entityManager){
+    public OcpNovOtrosDao(EntityManager entityManager) {
         super(OcpNovOtros.class);
         this.entityManager = entityManager;
     }
@@ -33,28 +33,36 @@ public class OcpNovOtrosDao extends AbstractDao<OcpNovOtros> implements Serializ
         this.entityManager = entityManager;
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long codEmpleado;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long tipo;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valor;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long anio;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long mes;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String comentarios;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCargue;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 
 }

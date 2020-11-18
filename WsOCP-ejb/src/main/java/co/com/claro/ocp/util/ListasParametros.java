@@ -5,10 +5,12 @@ import lombok.Setter;
 
 public class ListasParametros {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long parameter;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String descripParameter;
 
     public ListasParametros() {

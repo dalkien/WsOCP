@@ -31,33 +31,33 @@ public class OcpNovIncLinController {
     }
 
     public void edit(OcpNovIncLin ocpNovIncLin) {
-        try{
+        try {
             this.ocpNovIncLinDao.setEntityManager(this.entityManager);
             this.ocpNovIncLinDao.edit(ocpNovIncLin);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void delete(OcpNovIncLin ocpNovIncLin) {
-        try{
+        try {
             this.ocpNovIncLinDao.setEntityManager(this.entityManager);
             this.ocpNovIncLinDao.remove(ocpNovIncLin);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<OcpNovIncLin> mes(Long anio, Long mes){
+    public List<OcpNovIncLin> mes(Long anio, Long mes) {
         List<OcpNovIncLin> incLins = new ArrayList<>();
         try {
             incLins = entityManager.createNamedQuery("OcpNovIncLin.findRang")
                     .setParameter("anio", anio)
-                    .setParameter("mes",mes)
+                    .setParameter("mes", mes)
                     .getResultList();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return  incLins;
+        return incLins;
     }
 }

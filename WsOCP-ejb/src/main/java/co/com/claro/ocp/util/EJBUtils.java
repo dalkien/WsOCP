@@ -12,14 +12,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.json.JSONObject;
+
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.Date;
+
 import net.telmex.util.StringUtil;
 
 /**
- *
  * @author omarMad
  */
 public class EJBUtils {
@@ -29,13 +31,12 @@ public class EJBUtils {
      * entity a un dao y viceversa el obj "in" ces el objeto lleno y el out es
      * el objeto q se quiere llenar y q el metodo devuelve
      *
-     * @autor acastanv-Everis
      * @param <T>
      * @param obj1
      * @param obj2
      * @return
      * @throws Exception
-     *
+     * @autor acastanv-Everis
      */
     public static <T> T mapperEntityAndDao(T obj1, T obj2) throws Exception {
         T valorParam = obj2;
@@ -48,7 +49,7 @@ public class EJBUtils {
                     if (!field.getName().contains("_")) {
                         Method getMethod = claseIn.getMethod(
                                 "get"
-                                + StringUtil
+                                        + StringUtil
                                         .toCamelCase(field.getName()));
 
                         Object value = getMethod.invoke(valorParam);
@@ -61,7 +62,7 @@ public class EJBUtils {
                                 || value instanceof Character) {
                             Method setMethod = claseOut.getDeclaredMethod(
                                     "set"
-                                    + StringUtil
+                                            + StringUtil
                                             .toCamelCase(
                                                     field.getName()),
                                     value.getClass()
@@ -79,7 +80,7 @@ public class EJBUtils {
      * Objetivo: Metodo que valida una cadena con una Expresion Regular (RE)
      *
      * @param pattern - Expresion regular para validar String
-     * @param text - String a validar con la Expresion regular 'patron'
+     * @param text    - String a validar con la Expresion regular 'patron'
      * @return <code>true</code> si la cadena concuerda a la RE y
      * <code>false</code> si no concuerda
      */

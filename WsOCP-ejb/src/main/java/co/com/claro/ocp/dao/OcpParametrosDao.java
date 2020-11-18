@@ -15,39 +15,49 @@ import java.util.Date;
 public class OcpParametrosDao extends AbstractDao<OcpParametros>
         implements Serializable {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long idParametro;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String nombreParametro;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long estadoParametro;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Date fecCreacion;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String comentarios;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long tipoParametro;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String usuario;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long valor1;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private String valor2;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public OcpParametrosDao(){}
+    public OcpParametrosDao() {
+    }
 
-    public OcpParametrosDao(EntityManager entityManager){
+    public OcpParametrosDao(EntityManager entityManager) {
         super(OcpParametros.class);
         this.entityManager = entityManager;
     }

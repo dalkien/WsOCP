@@ -21,61 +21,67 @@ public class OcpParametrosFacade implements OcpParametrosIFacade {
     OcpParametrosRelacionController relacionController;
 
     @Override
-    public List<InformacionParametros>  infParameters(Long valor){
-        List<InformacionParametros> informacion =  new ArrayList<>();
-        try{
+    public List<InformacionParametros> infParameters(Long valor) {
+        List<InformacionParametros> informacion = new ArrayList<>();
+        try {
             informacion = relacionController.infParameters(valor);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return informacion;
     }
 
     @Override
-    public List<ListasParametros> listasParametros(){
+    public List<ListasParametros> listasParametros() {
         List<ListasParametros> parametros = new ArrayList<>();
         try {
             parametros = relacionController.listSubParameters();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return parametros;
     }
 
     @Override
-    public List<OcpParametros> allParameter(){
+    public List<OcpParametros> allParameter() {
         List<OcpParametros> parametros = new ArrayList<>();
-        try{
+        try {
             parametros = parametrosController.allParameters();
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return parametros;
     }
 
     @Override
-    public OcpParametros parameter(Long id){
+    public OcpParametros parameter(Long id) {
         OcpParametros parametro = new OcpParametros();
-        try{
+        try {
             parametro = parametrosController.parameterById(id);
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return parametro;
     }
 
     @Override
-    public List<OcpParametros> listParameter(List<Long> ids){
+    public List<OcpParametros> listParameter(List<Long> ids) {
         List<OcpParametros> parametros = new ArrayList<>();
-        try{
+        try {
             parametros = parametrosController.listParameters(ids);
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return parametros;
     }
 
     @Override
     public OcpParametros crearParametro(OcpParametros param) {
         OcpParametros parametros = new OcpParametros();
-        try{
+        try {
             parametrosController.create(param);
             parametros = parametrosController.findParam(param.getNombreParametro());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return parametros;
