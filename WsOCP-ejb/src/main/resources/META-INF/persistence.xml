@@ -11,10 +11,14 @@
         <class>co.com.claro.ocp.entity.OcpNovBhe</class>
         <class>co.com.claro.ocp.entity.OcpNovIncLin</class>
         <class>co.com.claro.ocp.entity.OcpNovOtros</class>
+        <class>co.com.claro.ocp.entity.NovedadesProyectos</class>
+        <class>co.com.claro.ocp.entity.NovedadesEmpleados</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
         <properties>
             <property name="eclipselink.cache.shared.default" value="false"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

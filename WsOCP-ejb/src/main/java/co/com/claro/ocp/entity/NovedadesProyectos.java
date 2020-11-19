@@ -13,8 +13,8 @@ import java.sql.Date;
 @Table(name = "NOVEDADES_DE_PROYECTOS")
 @Data
 @NamedQueries({
-        @NamedQuery(name = "NovedadesDeproyecto.findAll", query = "SELECT q FROM   NovedadesProyectos q")
-        , @NamedQuery(name = "NovedadesDeproyecto.findId", query = "SELECT q FROM NovedadesProyectos q " +
+        @NamedQuery(name = "NovedadesProyectos.findAll", query = "SELECT q FROM   NovedadesProyectos q")
+        , @NamedQuery(name = "NovedadesProyectos.findId", query = "SELECT q FROM NovedadesProyectos q " +
         "where q.id =:id")
 
 })

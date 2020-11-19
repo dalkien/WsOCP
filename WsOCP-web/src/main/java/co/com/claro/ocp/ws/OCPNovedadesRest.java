@@ -2,8 +2,12 @@ package co.com.claro.ocp.ws;
 
 import co.com.claro.ocp.controller.*;
 import co.com.claro.ocp.dto.GenericResponse;
+import co.com.claro.ocp.dto.NovedadesEmpleadosResponse;
+import co.com.claro.ocp.dto.NovedadesProyectosResponse;
 import co.com.claro.ocp.dto.OcpNovedadesResponse;
 import co.com.claro.ocp.entity.*;
+import co.com.claro.ocp.facade.NovedadesEmpleadosIFacade;
+import co.com.claro.ocp.facade.NovedadesProyectosIFacade;
 import co.com.claro.ocp.facade.OcpBaseEmpleadosIFacade;
 import co.com.claro.ocp.facade.OcpNovedadesIFacade;
 
@@ -31,6 +35,12 @@ public class OCPNovedadesRest {
     OcpProyectoController proyectoController;
     @EJB
     OcpParametrosController parametrosController;
+
+    @EJB
+    NovedadesEmpleadosIFacade novedadesEmpleadosIFacade;
+
+    @EJB
+    NovedadesProyectosIFacade novedadesProyectosIFacade;
 
     public OCPNovedadesRest() {
     }
@@ -113,5 +123,122 @@ public class OCPNovedadesRest {
             e.printStackTrace();
         }
         return respuesta;
+    }
+
+    @GET
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("novedadesEmpleados")
+    public NovedadesEmpleadosResponse allNovedadesEmpleado(){
+        NovedadesEmpleadosResponse response = new NovedadesEmpleadosResponse();
+        GenericResponse generic = new GenericResponse("OK", "OK", "00");
+        List<NovedadesEmpleados> emp = new ArrayList<>();
+        try {
+            emp= this.novedadesEmpleadosIFacade.allNovedadEmpleados();
+            response.setNovedadesEmpleados(emp);
+            response.setResponse(generic);
+        }catch (Exception e){
+            e.printStackTrace();
+            generic.setReturnCode("99");
+            generic.setDescripcion(e.getCause().getCause().toString());
+            generic.setMessageCode("Operación no se ");
+            response.setResponse(generic);
+        }
+        return response;
+    }
+
+    @GET
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("novedadesProyectos")
+    public NovedadesProyectosResponse allNovedadesProyecto(){
+        NovedadesProyectosResponse response = new NovedadesProyectosResponse();
+        GenericResponse generic = new GenericResponse("OK", "OK", "00");
+        List<NovedadesProyectos> proy = new ArrayList<>();
+        try {
+            proy= this.novedadesProyectosIFacade.allNovedadesP();
+            response.setNovedadesProyectos(proy);
+            response.setResponse(generic);
+        }catch (Exception e){
+            e.printStackTrace();
+            generic.setReturnCode("99");
+            generic.setDescripcion(e.getCause().getCause().toString());
+            generic.setMessageCode("Operación no se ");
+            response.setResponse(generic);
+        }
+        return response;
+    }
+
+    @PUT
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("actualizaNovedadEmpleados")
+    public GenericResponse actualizaEmpleado( NovedadesEmpleados emp ){
+        GenericResponse response= new GenericResponse("OK", "OK", "00");
+        try {
+            this.novedadesEmpleadosIFacade.actualizaNovedadEmp(emp);
+        }catch (Exception e){
+            e.printStackTrace();
+            e.printStackTrace();
+            response.setReturnCode("99");
+            response.setDescripcion(e.getCause().getCause().toString());
+            response.setMessageCode("Operación no se ");
+        }
+        return response;
+    }
+
+    @PUT
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("actualizaNovedadProyectos")
+    public GenericResponse actualizaProyecto( NovedadesProyectos proy ){
+        GenericResponse response= new GenericResponse("OK", "OK", "00");
+        try {
+            this.novedadesProyectosIFacade.actuaizaNovedadProyecto(proy);
+        }catch (Exception e){
+            e.printStackTrace();
+            e.printStackTrace();
+            response.setReturnCode("99");
+            response.setDescripcion(e.getCause().getCause().toString());
+            response.setMessageCode("Operación no se ");
+        }
+        return response;
+    }
+
+
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("creaNovedadProyectos")
+    public GenericResponse creaProyecto( NovedadesProyectos proy ){
+        GenericResponse response= new GenericResponse("OK", "OK", "00");
+        try {
+            this.novedadesProyectosIFacade.creaNovedadProyecto(proy);
+        }catch (Exception e){
+            e.printStackTrace();
+            e.printStackTrace();
+            response.setReturnCode("99");
+            response.setDescripcion(e.getCause().getCause().toString());
+            response.setMessageCode("Operación no se ");
+        }
+        return response;
+    }
+
+    @PUT
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("creaNovedadEmpleados")
+    public GenericResponse creaEmpleado( NovedadesEmpleados emp ){
+        GenericResponse response= new GenericResponse("OK", "OK", "00");
+        try {
+            this.novedadesEmpleadosIFacade.crearNovedadEmp(emp);
+        }catch (Exception e){
+            e.printStackTrace();
+            e.printStackTrace();
+            response.setReturnCode("99");
+            response.setDescripcion(e.getCause().getCause().toString());
+            response.setMessageCode("Operación no se ");
+        }
+        return response;
     }
 }
