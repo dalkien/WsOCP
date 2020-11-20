@@ -216,7 +216,6 @@ public class OCPNovedadesRest {
             this.novedadesProyectosIFacade.creaNovedadProyecto(proy);
         }catch (Exception e){
             e.printStackTrace();
-            e.printStackTrace();
             response.setReturnCode("99");
             response.setDescripcion(e.getCause().getCause().toString());
             response.setMessageCode("Operación no se ");
@@ -233,7 +232,6 @@ public class OCPNovedadesRest {
         try {
             this.novedadesEmpleadosIFacade.crearNovedadEmp(emp);
         }catch (Exception e){
-            e.printStackTrace();
             e.printStackTrace();
             response.setReturnCode("99");
             response.setDescripcion(e.getCause().getCause().toString());

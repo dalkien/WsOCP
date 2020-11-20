@@ -3,6 +3,8 @@ package co.com.claro.ocp.ws;
 import co.com.claro.ocp.dto.GenericResponse;
 import co.com.claro.ocp.dto.InfoParamOcpResponse;
 import co.com.claro.ocp.dto.ListParamOcpResponse;
+import co.com.claro.ocp.entity.OcpCamposParametros;
+import co.com.claro.ocp.facade.OcpCamposParametrosIFacade;
 import co.com.claro.ocp.facade.OcpParametrosIFacade;
 import co.com.claro.ocp.util.InformacionParametros;
 import co.com.claro.ocp.util.ListasParametros;
@@ -21,6 +23,9 @@ public class OCPParametrosRest {
 
     @EJB
     OcpParametrosIFacade parametrosIFacade;
+
+    @EJB
+    OcpCamposParametrosIFacade camposParametrosIFacade;
 
     public OCPParametrosRest() {
     }
@@ -67,5 +72,39 @@ public class OCPParametrosRest {
         respuesta.setParaDesc(param);
         respuesta.setResponse(response);
         return respuesta;
+    }
+
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("creaCampoParam")
+    public GenericResponse createCampoParam(OcpCamposParametros param){
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
+        try {
+            this.camposParametrosIFacade.createCampoParam(param);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setReturnCode("99");
+            response.setDescripcion(e.getCause().getCause().toString());
+            response.setMessageCode("Operación no se ");
+        }
+        return response;
+    }
+
+    @PUT
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("actualizaCampoParam")
+    public GenericResponse updateCampoParam(OcpCamposParametros param){
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
+        try {
+            this.camposParametrosIFacade.updateCampoParam(param);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setReturnCode("99");
+            response.setDescripcion(e.getCause().getCause().toString());
+            response.setMessageCode("Operación no se ");
+        }
+        return response;
     }
 }
