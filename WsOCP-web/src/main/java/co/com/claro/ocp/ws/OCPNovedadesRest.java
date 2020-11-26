@@ -126,8 +126,8 @@ public class OCPNovedadesRest {
     }
 
     @GET
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes("application/json; charset=UTF-8")
+    @Produces("application/json; charset=UTF-8")
     @Path("novedadesEmpleados")
     public NovedadesEmpleadosResponse allNovedadesEmpleado(){
         NovedadesEmpleadosResponse response = new NovedadesEmpleadosResponse();
@@ -148,8 +148,8 @@ public class OCPNovedadesRest {
     }
 
     @GET
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes("application/json; charset=UTF-8")
+    @Produces("application/json; charset=UTF-8")
     @Path("novedadesProyectos")
     public NovedadesProyectosResponse allNovedadesProyecto(){
         NovedadesProyectosResponse response = new NovedadesProyectosResponse();
@@ -170,15 +170,14 @@ public class OCPNovedadesRest {
     }
 
     @PUT
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes("application/json; charset=UTF-8")
+    @Produces("application/json; charset=UTF-8")
     @Path("actualizaNovedadEmpleados")
     public GenericResponse actualizaEmpleado( NovedadesEmpleados emp ){
         GenericResponse response= new GenericResponse("OK", "OK", "00");
         try {
             this.novedadesEmpleadosIFacade.actualizaNovedadEmp(emp);
         }catch (Exception e){
-            e.printStackTrace();
             e.printStackTrace();
             response.setReturnCode("99");
             response.setDescripcion(e.getCause().getCause().toString());
@@ -188,15 +187,14 @@ public class OCPNovedadesRest {
     }
 
     @PUT
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes("application/json; charset=UTF-8")
+    @Produces("application/json; charset=UTF-8")
     @Path("actualizaNovedadProyectos")
     public GenericResponse actualizaProyecto( NovedadesProyectos proy ){
         GenericResponse response= new GenericResponse("OK", "OK", "00");
         try {
             this.novedadesProyectosIFacade.actuaizaNovedadProyecto(proy);
         }catch (Exception e){
-            e.printStackTrace();
             e.printStackTrace();
             response.setReturnCode("99");
             response.setDescripcion(e.getCause().getCause().toString());
@@ -207,8 +205,8 @@ public class OCPNovedadesRest {
 
 
     @POST
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes("application/json; charset=UTF-8")
+    @Produces("application/json; charset=UTF-8")
     @Path("creaNovedadProyectos")
     public GenericResponse creaProyecto( NovedadesProyectos proy ){
         GenericResponse response= new GenericResponse("OK", "OK", "00");
@@ -223,9 +221,9 @@ public class OCPNovedadesRest {
         return response;
     }
 
-    @PUT
-    @Consumes("application/json")
-    @Produces("application/json")
+    @POST
+    @Consumes("application/json; charset=UTF-8")
+    @Produces("application/json; charset=UTF-8")
     @Path("creaNovedadEmpleados")
     public GenericResponse creaEmpleado( NovedadesEmpleados emp ){
         GenericResponse response= new GenericResponse("OK", "OK", "00");

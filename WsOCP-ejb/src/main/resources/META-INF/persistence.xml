@@ -7,13 +7,13 @@
         <class>co.com.claro.ocp.entity.OcpBaseEmpleados</class>
         <class>co.com.claro.ocp.entity.OcpProyecto</class>
         <class>co.com.claro.ocp.entity.OcpParametros</class>
-        <class>co.com.claro.ocp.entity.OcpCamposParametros</class>
         <class>co.com.claro.ocp.entity.OcpParametrosRelacion</class>
         <class>co.com.claro.ocp.entity.OcpNovBhe</class>
         <class>co.com.claro.ocp.entity.OcpNovIncLin</class>
         <class>co.com.claro.ocp.entity.OcpNovOtros</class>
         <class>co.com.claro.ocp.entity.NovedadesProyectos</class>
         <class>co.com.claro.ocp.entity.NovedadesEmpleados</class>
+        <class>co.com.claro.ocp.entity.OcpCamposParametros</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
         <properties>

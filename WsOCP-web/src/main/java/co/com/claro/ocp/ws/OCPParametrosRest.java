@@ -3,11 +3,13 @@ package co.com.claro.ocp.ws;
 import co.com.claro.ocp.dto.GenericResponse;
 import co.com.claro.ocp.dto.InfoParamOcpResponse;
 import co.com.claro.ocp.dto.ListParamOcpResponse;
+import co.com.claro.ocp.dto.OcpCamposParamResponse;
 import co.com.claro.ocp.entity.OcpCamposParametros;
 import co.com.claro.ocp.facade.OcpCamposParametrosIFacade;
 import co.com.claro.ocp.facade.OcpParametrosIFacade;
 import co.com.claro.ocp.util.InformacionParametros;
 import co.com.claro.ocp.util.ListasParametros;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -104,6 +106,54 @@ public class OCPParametrosRest {
             response.setReturnCode("99");
             response.setDescripcion(e.getCause().getCause().toString());
             response.setMessageCode("Operación no se ");
+        }
+        return response;
+    }
+
+    @GET
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("allCampoParam")
+    public OcpCamposParamResponse getAllCampoParam(OcpCamposParametros param){
+        OcpCamposParamResponse response = new OcpCamposParamResponse();
+        List<OcpCamposParametros> campos = new ArrayList<>();
+        GenericResponse respon = new GenericResponse("OK", "OK", "00");
+        try {
+            campos= this.camposParametrosIFacade.findAllCamposParam();
+            response.setParametros(campos);
+            response.setResponse(respon);
+        }catch (Exception e){
+            e.printStackTrace();
+            respon.setReturnCode("99");
+            respon.setDescripcion(e.getCause().getCause().toString());
+            respon.setMessageCode("Operación no se ");
+            response.setResponse(respon);
+        }
+        return response;
+    }
+
+    @GET
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("campoById/{id}")
+    public OcpCamposParamResponse campoParam(@PathParam("id") Long idCampo){
+        System.out.println("id => " + idCampo );
+        OcpCamposParamResponse response = new OcpCamposParamResponse();
+        List<OcpCamposParametros> campos = new ArrayList<>();
+        GenericResponse respon = new GenericResponse("OK", "OK", "00");
+        OcpCamposParametros param = new OcpCamposParametros();
+        try {
+            param = this.camposParametrosIFacade.findCampoParamById(idCampo);
+            campos.add(param);
+            response.setParametros(campos);
+            response.setResponse(respon);
+        }catch (Exception e){
+            e.printStackTrace();
+            e.printStackTrace();
+            respon.setReturnCode("99");
+            respon.setDescripcion(e.getCause().getCause().toString());
+            respon.setMessageCode("Operación no se ");
+            response.setResponse(respon);
         }
         return response;
     }

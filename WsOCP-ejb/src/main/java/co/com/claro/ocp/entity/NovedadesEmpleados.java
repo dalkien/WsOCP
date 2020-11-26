@@ -80,6 +80,21 @@ public class NovedadesEmpleados {
     @Getter @Setter
     private Long otrosCostos;
 
+    @Column (name = "HORAS_MES", nullable = true)
+    @Getter @Setter
+    private Long HorasMes;
+
+    @Column (name = "COSTO_RRHH", nullable = true)
+    @Getter @Setter
+    private Long costoRRHH;
+
+    @Column (name = "INCAP_DIAS", nullable = true)
+    @Getter @Setter
+    private Long incapacidadDias;
+
+    @Column (name = "OBSERV_NOMINA", nullable = true)
+    @Getter @Setter
+    private String observacionesNomina;
 
 
 

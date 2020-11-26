@@ -60,10 +60,12 @@ public class OcpCamposParametrosController {
     }
 
     public OcpCamposParametros camposParametrosById(Long id){
+        System.out.println("id => " + id );
         OcpCamposParametros param = new OcpCamposParametros();
         try {
             param = this.entityManager
                     .createNamedQuery("OcpCamposParametros.findById",OcpCamposParametros.class)
+                    .setParameter("id",id)
                     .getSingleResult();
         }catch (Exception e){
             e.printStackTrace();
