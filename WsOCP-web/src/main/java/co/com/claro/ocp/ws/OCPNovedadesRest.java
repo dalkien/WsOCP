@@ -1,15 +1,13 @@
 package co.com.claro.ocp.ws;
 
 import co.com.claro.ocp.controller.*;
-import co.com.claro.ocp.dto.GenericResponse;
-import co.com.claro.ocp.dto.NovedadesEmpleadosResponse;
-import co.com.claro.ocp.dto.NovedadesProyectosResponse;
-import co.com.claro.ocp.dto.OcpNovedadesResponse;
+import co.com.claro.ocp.dto.*;
 import co.com.claro.ocp.entity.*;
 import co.com.claro.ocp.facade.NovedadesEmpleadosIFacade;
 import co.com.claro.ocp.facade.NovedadesProyectosIFacade;
 import co.com.claro.ocp.facade.OcpBaseEmpleadosIFacade;
 import co.com.claro.ocp.facade.OcpNovedadesIFacade;
+import co.com.claro.ocp.logica.TaskLoad;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -49,8 +47,20 @@ public class OCPNovedadesRest {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("cargarLista")
-    public GenericResponse getAllListParam(String file) {
-        return null;
+    public GenericResponse getAllListParam(ArchiveRequest file) {
+        TaskLoad task = new TaskLoad();
+        GenericResponse generic = new GenericResponse("Ok","Ok","00");
+        try {
+            task.setArchivo(file);
+            task.run();
+        }catch (Exception e){
+            e.printStackTrace();
+            generic.setReturnCode("99");
+            generic.setDescripcion(e.getCause().getCause().toString());
+            generic.setMessageCode("falla en tarea programada. ");
+        }
+        return generic;
+
     }
 
     @GET

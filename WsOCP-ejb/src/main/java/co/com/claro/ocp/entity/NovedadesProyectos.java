@@ -88,5 +88,6 @@ public class NovedadesProyectos{
     @Getter @Setter
     private Long tipoCambio;
 
+
 }
 

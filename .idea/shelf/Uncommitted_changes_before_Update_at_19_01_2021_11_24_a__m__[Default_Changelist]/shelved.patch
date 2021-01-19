@@ -1,0 +1,926 @@
+Index: WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.com.claro.ocp.ws;\r\n\r\nimport co.com.claro.ocp.controller.*;\r\nimport co.com.claro.ocp.dto.GenericResponse;\r\nimport co.com.claro.ocp.dto.NovedadesEmpleadosResponse;\r\nimport co.com.claro.ocp.dto.NovedadesProyectosResponse;\r\nimport co.com.claro.ocp.dto.OcpNovedadesResponse;\r\nimport co.com.claro.ocp.entity.*;\r\nimport co.com.claro.ocp.facade.NovedadesEmpleadosIFacade;\r\nimport co.com.claro.ocp.facade.NovedadesProyectosIFacade;\r\nimport co.com.claro.ocp.facade.OcpBaseEmpleadosIFacade;\r\nimport co.com.claro.ocp.facade.OcpNovedadesIFacade;\r\n\r\nimport javax.ejb.EJB;\r\nimport javax.ejb.Stateless;\r\nimport javax.ejb.TransactionManagement;\r\nimport javax.ws.rs.*;\r\nimport java.time.LocalDate;\r\nimport java.time.ZoneId;\r\nimport java.util.*;\r\nimport java.util.stream.Collectors;\r\n\r\n@Path(\"OCPNovedades\")\r\n@Stateless\r\n@TransactionManagement\r\npublic class OCPNovedadesRest {\r\n\r\n    @EJB\r\n    OcpNovedadesIFacade novedadesIFacade;\r\n\r\n    @EJB\r\n    OcpBaseEmpleadosIFacade empleadosIFacade;\r\n\r\n    @EJB\r\n    OcpProyectoController proyectoController;\r\n    @EJB\r\n    OcpParametrosController parametrosController;\r\n\r\n    @EJB\r\n    NovedadesEmpleadosIFacade novedadesEmpleadosIFacade;\r\n\r\n    @EJB\r\n    NovedadesProyectosIFacade novedadesProyectosIFacade;\r\n\r\n    public OCPNovedadesRest() {\r\n    }\r\n\r\n    @POST\r\n    @Consumes(\"application/json\")\r\n    @Produces(\"application/json\")\r\n    @Path(\"cargarLista\")\r\n    public GenericResponse getAllListParam(String file) {\r\n        return null;\r\n    }\r\n\r\n    @GET\r\n    @Consumes(\"application/json\")\r\n    @Produces(\"application/json\")\r\n    @Path(\"allNovedadesMes\")\r\n    public List<OcpNovedadesResponse> allNovedades(@QueryParam(\"anio\") Long anio, @QueryParam(\"mes\") Long mes) {\r\n        Date date = new Date();\r\n        LocalDate fecha = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();\r\n        int month = fecha.getMonthValue();\r\n        //System.out.println(fecha);\r\n        anio = anio != null ? anio : new Long(2019);\r\n        mes = mes != null ? mes : new Long(10);\r\n        List<OcpNovedadesResponse> respuesta = new ArrayList<>();\r\n        try {\r\n            List<OcpNovBhe> bhes = novedadesIFacade.mesNovProBhe(anio, mes);\r\n            List<OcpNovIncLin> incLins = novedadesIFacade.mesNovIncLin(anio, mes);\r\n            List<OcpNovOtros> otros = novedadesIFacade.mesNovEmpOtros(anio, mes);\r\n            List<Long> emple = new ArrayList<>();\r\n            List<Long> proy = new ArrayList<>();\r\n            GenericResponse rpnse = new GenericResponse(\"OK\", \"OK\", \"00\");\r\n            bhes.stream().forEach((x) -> proy.add(x.getIdProyecto()));\r\n            bhes.stream().forEach((x) -> emple.add(x.getCodEmpleado()));\r\n            otros.stream().forEach((x) -> emple.add(x.getCodEmpleado()));\r\n            incLins.stream().forEach((x) -> emple.add(x.getCodEmpleado()));\r\n            Set<Long> proys = new HashSet<Long>(proy);\r\n            Set<Long> emples = new HashSet<Long>(emple);\r\n            for (Long em : emples) {\r\n                OcpBaseEmpleados emplado = empleadosIFacade.getEmpleado(em);\r\n                OcpNovedadesResponse dato = new OcpNovedadesResponse();\r\n                List<OcpNovBhe> bhes1 = bhes.stream()\r\n                        .filter((x) -> em.equals(x.getCodEmpleado()))\r\n                        .collect(Collectors.toList());\r\n                List<OcpNovIncLin> incLins1 = incLins.stream()\r\n                        .filter((y) -> em.equals(y.getCodEmpleado()))\r\n                        .collect(Collectors.toList());\r\n                List<OcpNovOtros> otros1 = otros.stream()\r\n                        .filter((z) -> em.equals(z.getCodEmpleado()))\r\n                        .collect(Collectors.toList());\r\n                dato.setCodigo(em);\r\n                dato.setTipo(\"empleado\");\r\n                dato.setNovBhes(bhes1);\r\n                dato.setNovIncLins(incLins1);\r\n                dato.setNovOtros(otros1);\r\n                dato.setEmpleado(emplado);\r\n                dato.setDesProyecto(new OcpParametros());\r\n                dato.setProyectos(new OcpProyecto());\r\n                respuesta.add(dato);\r\n            }\r\n            for (Long py : proys) {\r\n                OcpParametros desproy = parametrosController.findParam(py.toString());\r\n                OcpProyecto proyecto = proyectoController.proyectoById(py);\r\n                List<OcpNovIncLin> incLins1 = new ArrayList<>();\r\n                List<OcpNovOtros> otros1 = new ArrayList<>();\r\n                OcpNovedadesResponse dato = new OcpNovedadesResponse();\r\n                List<OcpNovBhe> bhes1 = bhes.stream()\r\n                        .filter((x) -> py.equals(x.getIdProyecto()))\r\n                        .collect(Collectors.toList());\r\n                dato.setCodigo(py);\r\n                dato.setTipo(\"proyecto\");\r\n                dato.setNovBhes(bhes1);\r\n                dato.setNovIncLins(incLins1);\r\n                dato.setNovOtros(otros1);\r\n                dato.setProyectos(proyecto);\r\n                dato.setDesProyecto(desproy);\r\n                dato.setEmpleado(new OcpBaseEmpleados());\r\n                respuesta.add(dato);\r\n            }\r\n        } catch (Exception e) {\r\n            e.printStackTrace();\r\n        }\r\n        return respuesta;\r\n    }\r\n\r\n    @GET\r\n    @Consumes(\"application/json; charset=UTF-8\")\r\n    @Produces(\"application/json; charset=UTF-8\")\r\n    @Path(\"novedadesEmpleados\")\r\n    public NovedadesEmpleadosResponse allNovedadesEmpleado(){\r\n        NovedadesEmpleadosResponse response = new NovedadesEmpleadosResponse();\r\n        GenericResponse generic = new GenericResponse(\"OK\", \"OK\", \"00\");\r\n        List<NovedadesEmpleados> emp = new ArrayList<>();\r\n        try {\r\n            emp= this.novedadesEmpleadosIFacade.allNovedadEmpleados();\r\n            response.setNovedadesEmpleados(emp);\r\n            response.setResponse(generic);\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            generic.setReturnCode(\"99\");\r\n            generic.setDescripcion(e.getCause().getCause().toString());\r\n            generic.setMessageCode(\"Operación no se \");\r\n            response.setResponse(generic);\r\n        }\r\n        return response;\r\n    }\r\n\r\n    @GET\r\n    @Consumes(\"application/json; charset=UTF-8\")\r\n    @Produces(\"application/json; charset=UTF-8\")\r\n    @Path(\"novedadesProyectos\")\r\n    public NovedadesProyectosResponse allNovedadesProyecto(){\r\n        NovedadesProyectosResponse response = new NovedadesProyectosResponse();\r\n        GenericResponse generic = new GenericResponse(\"OK\", \"OK\", \"00\");\r\n        List<NovedadesProyectos> proy = new ArrayList<>();\r\n        try {\r\n            proy= this.novedadesProyectosIFacade.allNovedadesP();\r\n            response.setNovedadesProyectos(proy);\r\n            response.setResponse(generic);\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            generic.setReturnCode(\"99\");\r\n            generic.setDescripcion(e.getCause().getCause().toString());\r\n            generic.setMessageCode(\"Operación no se \");\r\n            response.setResponse(generic);\r\n        }\r\n        return response;\r\n    }\r\n\r\n    @PUT\r\n    @Consumes(\"application/json; charset=UTF-8\")\r\n    @Produces(\"application/json; charset=UTF-8\")\r\n    @Path(\"actualizaNovedadEmpleados\")\r\n    public GenericResponse actualizaEmpleado( NovedadesEmpleados emp ){\r\n        GenericResponse response= new GenericResponse(\"OK\", \"OK\", \"00\");\r\n        try {\r\n            this.novedadesEmpleadosIFacade.actualizaNovedadEmp(emp);\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            response.setReturnCode(\"99\");\r\n            response.setDescripcion(e.getCause().getCause().toString());\r\n            response.setMessageCode(\"Operación no se \");\r\n        }\r\n        return response;\r\n    }\r\n\r\n    @PUT\r\n    @Consumes(\"application/json; charset=UTF-8\")\r\n    @Produces(\"application/json; charset=UTF-8\")\r\n    @Path(\"actualizaNovedadProyectos\")\r\n    public GenericResponse actualizaProyecto( NovedadesProyectos proy ){\r\n        GenericResponse response= new GenericResponse(\"OK\", \"OK\", \"00\");\r\n        try {\r\n            this.novedadesProyectosIFacade.actuaizaNovedadProyecto(proy);\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            response.setReturnCode(\"99\");\r\n            response.setDescripcion(e.getCause().getCause().toString());\r\n            response.setMessageCode(\"Operación no se \");\r\n        }\r\n        return response;\r\n    }\r\n\r\n\r\n    @POST\r\n    @Consumes(\"application/json; charset=UTF-8\")\r\n    @Produces(\"application/json; charset=UTF-8\")\r\n    @Path(\"creaNovedadProyectos\")\r\n    public GenericResponse creaProyecto( NovedadesProyectos proy ){\r\n        GenericResponse response= new GenericResponse(\"OK\", \"OK\", \"00\");\r\n        try {\r\n            this.novedadesProyectosIFacade.creaNovedadProyecto(proy);\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            response.setReturnCode(\"99\");\r\n            response.setDescripcion(e.getCause().getCause().toString());\r\n            response.setMessageCode(\"Operación no se \");\r\n        }\r\n        return response;\r\n    }\r\n\r\n    @POST\r\n    @Consumes(\"application/json; charset=UTF-8\")\r\n    @Produces(\"application/json; charset=UTF-8\")\r\n    @Path(\"creaNovedadEmpleados\")\r\n    public GenericResponse creaEmpleado( NovedadesEmpleados emp ){\r\n        GenericResponse response= new GenericResponse(\"OK\", \"OK\", \"00\");\r\n        try {\r\n            this.novedadesEmpleadosIFacade.crearNovedadEmp(emp);\r\n        }catch (Exception e){\r\n            e.printStackTrace();\r\n            response.setReturnCode(\"99\");\r\n            response.setDescripcion(e.getCause().getCause().toString());\r\n            response.setMessageCode(\"Operación no se \");\r\n        }\r\n        return response;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java b/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java
+--- a/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java	(date 1606427787907)
+@@ -1,15 +1,13 @@
+ package co.com.claro.ocp.ws;
+ 
+ import co.com.claro.ocp.controller.*;
+-import co.com.claro.ocp.dto.GenericResponse;
+-import co.com.claro.ocp.dto.NovedadesEmpleadosResponse;
+-import co.com.claro.ocp.dto.NovedadesProyectosResponse;
+-import co.com.claro.ocp.dto.OcpNovedadesResponse;
++import co.com.claro.ocp.dto.*;
+ import co.com.claro.ocp.entity.*;
+ import co.com.claro.ocp.facade.NovedadesEmpleadosIFacade;
+ import co.com.claro.ocp.facade.NovedadesProyectosIFacade;
+ import co.com.claro.ocp.facade.OcpBaseEmpleadosIFacade;
+ import co.com.claro.ocp.facade.OcpNovedadesIFacade;
++import co.com.claro.ocp.logica.TaskLoad;
+ 
+ import javax.ejb.EJB;
+ import javax.ejb.Stateless;
+@@ -49,8 +47,20 @@
+     @Consumes("application/json")
+     @Produces("application/json")
+     @Path("cargarLista")
+-    public GenericResponse getAllListParam(String file) {
+-        return null;
++    public GenericResponse getAllListParam(ArchiveRequest file) {
++        TaskLoad task = new TaskLoad();
++        GenericResponse generic = new GenericResponse("Ok","Ok","00");
++        try {
++            task.setArchivo(file);
++            task.run();
++        }catch (Exception e){
++            e.printStackTrace();
++            generic.setReturnCode("99");
++            generic.setDescripcion(e.getCause().getCause().toString());
++            generic.setMessageCode("falla en tarea programada. ");
++        }
++        return generic;
++
+     }
+ 
+     @GET
+Index: WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/NovedadesProyectos.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.com.claro.ocp.entity;\r\n\r\nimport lombok.Data;\r\nimport lombok.Getter;\r\nimport lombok.Setter;\r\n\r\nimport javax.persistence.*;\r\nimport javax.validation.constraints.NotNull;\r\nimport java.io.Serializable;\r\nimport java.sql.Date;\r\n\r\n@Entity\r\n@Table(name = \"NOVEDADES_DE_PROYECTOS\")\r\n@Data\r\n@NamedQueries({\r\n        @NamedQuery(name = \"NovedadesProyectos.findAll\", query = \"SELECT q FROM   NovedadesProyectos q\")\r\n        , @NamedQuery(name = \"NovedadesProyectos.findId\", query = \"SELECT q FROM NovedadesProyectos q \" +\r\n        \"where q.id =:id\")\r\n\r\n})\r\npublic class NovedadesProyectos{\r\n    @Id\r\n    @Column(name = \"ID\", nullable = false)\r\n    @Getter @Setter\r\n    private Long id;\r\n\r\n    @Column(name = \"PROYECTO\", nullable = false)\r\n    @Getter @Setter\r\n    private String proyecto;\r\n\r\n    @Column(name=\"ESTADO_DEL_PROYECTO\", nullable = false )\r\n    @Getter @Setter\r\n    private String estadoDeproyecto;\r\n\r\n    @Column ( name=\"GERENTE_SQUAD\", nullable = false )\r\n    @Getter @Setter\r\n    private String gerenteSquad;\r\n\r\n    @Column (name=\"DIRECCIÓN\",nullable = false)\r\n    @Getter @Setter\r\n    private String direccion;\r\n\r\n    @Column (name=\"DATACENTER\", nullable = true)\r\n    @Getter @Setter\r\n    private Long datacenter;\r\n\r\n    @Column (name=\"EQUIPOS\",nullable = true )\r\n    @Getter @Setter\r\n    private Long equipos;\r\n\r\n    @Column (name=\"TAXIS\",nullable = true)\r\n    @Getter @Setter\r\n    private Long taxis;\r\n\r\n    @Column (name = \"CAJA_MENOR\",nullable = true)\r\n    @Getter @Setter\r\n    private Long cajaMenor;\r\n\r\n    @Column(name = \"CELULARES\",nullable = true)\r\n    @Getter @Setter\r\n    private Long celulares;\r\n\r\n    @Column (name = \"EXAMEN_MEDICO\",nullable = true)\r\n    @Getter @Setter\r\n    private Long examenMedico;\r\n\r\n    @Column(name = \"BONOS_GTES\",nullable = true)\r\n    @Getter @Setter\r\n    private Long bonosGtes;\r\n\r\n    @Column (name = \"LICENCIAS_365_USD\",nullable = true)\r\n    @Getter @Setter\r\n    private Long licencias365Usd;\r\n\r\n    @Column (name = \"COLUMNAS_ALTERNATIVAS\",nullable = true )\r\n    @Getter @Setter\r\n    private String columnasAlternativas;\r\n\r\n    @Column (name = \"FECHA_CREACION\",nullable = true)\r\n    @Getter @Setter\r\n    private Date fechaCreacion;\r\n\r\n    @Column (name = \"LICENCIAS_365_COPS\",nullable = true)\r\n    @Getter @Setter\r\n    private Long licencias365Cops;\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/NovedadesProyectos.java b/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/NovedadesProyectos.java
+--- a/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/NovedadesProyectos.java	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/NovedadesProyectos.java	(date 1606857519552)
+@@ -84,5 +84,6 @@
+     @Getter @Setter
+     private Long licencias365Cops;
+ 
++
+ }
+ 
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n  <modelVersion>4.0.0</modelVersion>\r\n  <groupId>co.com.claro.ocp</groupId>\r\n  <artifactId>WsOCP</artifactId>\r\n  <version>1.0-SNAPSHOT</version>\r\n  <packaging>pom</packaging>\r\n  <name>WsOCP</name>\r\n  <modules>\r\n    <module>WsOCP-ear</module>\r\n    <module>WsOCP-web</module>\r\n    <module>WsOCP-ejb</module>\r\n  </modules>\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/pom.xml	(date 1606425644971)
+@@ -1,14 +1,15 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+-  <modelVersion>4.0.0</modelVersion>
+-  <groupId>co.com.claro.ocp</groupId>
+-  <artifactId>WsOCP</artifactId>
+-  <version>1.0-SNAPSHOT</version>
+-  <packaging>pom</packaging>
+-  <name>WsOCP</name>
+-  <modules>
+-    <module>WsOCP-ear</module>
+-    <module>WsOCP-web</module>
+-    <module>WsOCP-ejb</module>
+-  </modules>
++<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
++    <modelVersion>4.0.0</modelVersion>
++    <groupId>co.com.claro.ocp</groupId>
++    <artifactId>WsOCP</artifactId>
++    <version>1.0-SNAPSHOT</version>
++    <packaging>pom</packaging>
++    <name>WsOCP</name>
++    <modules>
++        <module>WsOCP-ear</module>
++        <module>WsOCP-web</module>
++        <module>WsOCP-ejb</module>
++    </modules>
+ </project>
+Index: WsOCP-ejb/target/classes/META-INF/persistence.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<persistence version=\"2.1\" xmlns=\"http://xmlns.jcp.org/xml/ns/persistence\"\r\n             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n             xsi:schemaLocation=\"http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd\">\r\n    <persistence-unit name=\"OCPConnexion\" transaction-type=\"JTA\">\r\n        <jta-data-source>jdbc/OCPConnexion</jta-data-source>\r\n        <class>co.com.claro.ocp.entity.OcpBaseEmpleados</class>\r\n        <class>co.com.claro.ocp.entity.OcpProyecto</class>\r\n        <class>co.com.claro.ocp.entity.OcpParametros</class>\r\n        <class>co.com.claro.ocp.entity.OcpParametrosRelacion</class>\r\n        <class>co.com.claro.ocp.entity.OcpNovBhe</class>\r\n        <class>co.com.claro.ocp.entity.OcpNovIncLin</class>\r\n        <class>co.com.claro.ocp.entity.OcpNovOtros</class>\r\n        <exclude-unlisted-classes>true</exclude-unlisted-classes>\r\n        <shared-cache-mode>NONE</shared-cache-mode>\r\n        <properties>\r\n            <property name=\"eclipselink.cache.shared.default\" value=\"false\"/>\r\n        </properties>\r\n    </persistence-unit>\r\n</persistence>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-ejb/target/classes/META-INF/persistence.xml b/WsOCP-ejb/target/classes/META-INF/persistence.xml
+--- a/WsOCP-ejb/target/classes/META-INF/persistence.xml	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/WsOCP-ejb/target/classes/META-INF/persistence.xml	(date 1606425645018)
+@@ -7,14 +7,19 @@
+         <class>co.com.claro.ocp.entity.OcpBaseEmpleados</class>
+         <class>co.com.claro.ocp.entity.OcpProyecto</class>
+         <class>co.com.claro.ocp.entity.OcpParametros</class>
++        <class>co.com.claro.ocp.entity.OcpCamposParametros</class>
+         <class>co.com.claro.ocp.entity.OcpParametrosRelacion</class>
+         <class>co.com.claro.ocp.entity.OcpNovBhe</class>
+         <class>co.com.claro.ocp.entity.OcpNovIncLin</class>
+         <class>co.com.claro.ocp.entity.OcpNovOtros</class>
++        <class>co.com.claro.ocp.entity.NovedadesProyectos</class>
++        <class>co.com.claro.ocp.entity.NovedadesEmpleados</class>
+         <exclude-unlisted-classes>true</exclude-unlisted-classes>
+         <shared-cache-mode>NONE</shared-cache-mode>
+         <properties>
+             <property name="eclipselink.cache.shared.default" value="false"/>
++            <property name="hibernate.hbm2ddl.auto" value="update"/>
++            <property name="hibernate.show_sql" value="true"/>
+         </properties>
+     </persistence-unit>
+ </persistence>
+Index: .idea/WsOCP.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/WsOCP.iml b/.idea/WsOCP.iml
+new file mode 100644
+--- /dev/null	(date 1611007315916)
++++ b/.idea/WsOCP.iml	(date 1611007315916)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module version="4">
++  <component name="FacetManager">
++    <facet type="jpa" name="JPA">
++      <configuration>
++        <setting name="validation-enabled" value="true" />
++        <datasource-mapping />
++        <naming-strategy-map />
++        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/WsOCP-ejb/target/WsOCP-ejb-1.0-SNAPSHOT/META-INF/persistence.xml" />
++      </configuration>
++    </facet>
++  </component>
++</module>
+\ No newline at end of file
+Index: WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.com.claro.ocp.entity;\r\n\r\nimport java.util.Date;\r\nimport javax.annotation.Generated;\r\nimport javax.persistence.metamodel.SingularAttribute;\r\nimport javax.persistence.metamodel.StaticMetamodel;\r\n\r\n@Generated(value = \"EclipseLink-2.5.2.v20140319-rNA\", date = \"2020-07-13T21:42:04\")\r\n@StaticMetamodel(OcpBaseEmpleados.class)\r\npublic class OcpBaseEmpleados_ {\r\n\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Date> fecCargue;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Long> cedula;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, String> descuento;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Long> salario;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, String> rol;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, String> nombres;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Long> beneficio;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, String> ingRet;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Date> fehcaIngrero;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Long> equipo;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, String> observaciones;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, String> tipoContrato;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, String> usuario;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Long> costoEstMes;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Long> codEmpleado;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, String> tipoSalario;\r\n    public static volatile SingularAttribute<OcpBaseEmpleados, Long> salarioTotal;\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java b/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java
+--- a/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java	(date 1606425645002)
+@@ -5,9 +5,9 @@
+ import javax.persistence.metamodel.SingularAttribute;
+ import javax.persistence.metamodel.StaticMetamodel;
+ 
+-@Generated(value = "EclipseLink-2.5.2.v20140319-rNA", date = "2020-07-13T21:42:04")
++@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2020-11-20T08:30:35")
+ @StaticMetamodel(OcpBaseEmpleados.class)
+-public class OcpBaseEmpleados_ {
++public class OcpBaseEmpleados_ { 
+ 
+     public static volatile SingularAttribute<OcpBaseEmpleados, Date> fecCargue;
+     public static volatile SingularAttribute<OcpBaseEmpleados, Long> cedula;
+Index: WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametrosRelacion_.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.com.claro.ocp.entity;\r\n\r\nimport java.util.Date;\r\nimport javax.annotation.Generated;\r\nimport javax.persistence.metamodel.SingularAttribute;\r\nimport javax.persistence.metamodel.StaticMetamodel;\r\n\r\n@Generated(value = \"EclipseLink-2.5.2.v20140319-rNA\", date = \"2020-07-13T21:42:04\")\r\n@StaticMetamodel(OcpParametrosRelacion.class)\r\npublic class OcpParametrosRelacion_ {\r\n\r\n    public static volatile SingularAttribute<OcpParametrosRelacion, Long> idParametro;\r\n    public static volatile SingularAttribute<OcpParametrosRelacion, Long> estadoRelacion;\r\n    public static volatile SingularAttribute<OcpParametrosRelacion, Long> idSubParametro;\r\n    public static volatile SingularAttribute<OcpParametrosRelacion, Long> idRelacion;\r\n    public static volatile SingularAttribute<OcpParametrosRelacion, Date> fechaCreacion;\r\n    public static volatile SingularAttribute<OcpParametrosRelacion, String> usuario;\r\n    public static volatile SingularAttribute<OcpParametrosRelacion, String> comentario;\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametrosRelacion_.java b/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametrosRelacion_.java
+--- a/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametrosRelacion_.java	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametrosRelacion_.java	(date 1606425644987)
+@@ -5,9 +5,9 @@
+ import javax.persistence.metamodel.SingularAttribute;
+ import javax.persistence.metamodel.StaticMetamodel;
+ 
+-@Generated(value = "EclipseLink-2.5.2.v20140319-rNA", date = "2020-07-13T21:42:04")
++@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2020-11-20T08:30:35")
+ @StaticMetamodel(OcpParametrosRelacion.class)
+-public class OcpParametrosRelacion_ {
++public class OcpParametrosRelacion_ { 
+ 
+     public static volatile SingularAttribute<OcpParametrosRelacion, Long> idParametro;
+     public static volatile SingularAttribute<OcpParametrosRelacion, Long> estadoRelacion;
+Index: WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametros_.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.com.claro.ocp.entity;\r\n\r\nimport java.util.Date;\r\nimport javax.annotation.Generated;\r\nimport javax.persistence.metamodel.SingularAttribute;\r\nimport javax.persistence.metamodel.StaticMetamodel;\r\n\r\n@Generated(value = \"EclipseLink-2.5.2.v20140319-rNA\", date = \"2020-07-13T21:42:04\")\r\n@StaticMetamodel(OcpParametros.class)\r\npublic class OcpParametros_ {\r\n\r\n    public static volatile SingularAttribute<OcpParametros, Long> idParametro;\r\n    public static volatile SingularAttribute<OcpParametros, Date> fecCreacion;\r\n    public static volatile SingularAttribute<OcpParametros, Long> tipoParametro;\r\n    public static volatile SingularAttribute<OcpParametros, Long> valor1;\r\n    public static volatile SingularAttribute<OcpParametros, String> usuario;\r\n    public static volatile SingularAttribute<OcpParametros, String> valor2;\r\n    public static volatile SingularAttribute<OcpParametros, Long> estadoParametro;\r\n    public static volatile SingularAttribute<OcpParametros, String> comentarios;\r\n    public static volatile SingularAttribute<OcpParametros, String> nombreParametro;\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametros_.java b/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametros_.java
+--- a/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametros_.java	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametros_.java	(date 1606425644971)
+@@ -5,9 +5,9 @@
+ import javax.persistence.metamodel.SingularAttribute;
+ import javax.persistence.metamodel.StaticMetamodel;
+ 
+-@Generated(value = "EclipseLink-2.5.2.v20140319-rNA", date = "2020-07-13T21:42:04")
++@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2020-11-20T08:30:35")
+ @StaticMetamodel(OcpParametros.class)
+-public class OcpParametros_ {
++public class OcpParametros_ { 
+ 
+     public static volatile SingularAttribute<OcpParametros, Long> idParametro;
+     public static volatile SingularAttribute<OcpParametros, Date> fecCreacion;
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ArtifactsWorkspaceSettings\">\r\n    <artifacts-to-build>\r\n      <artifact name=\"WsOCP-ear:ear\" />\r\n    </artifacts-to-build>\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"7c3b8f5d-80db-4a03-875a-447bf666f603\" name=\"Default Changelist\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/.gitignore\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/JPAMappingSettings.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/POJOGeneratorSettings.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/dataSources.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpNovBheController.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpNovIncLinController.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpNovOtrosController.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpNovBheDao.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpNovIncLinDao.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpNovOtrosDao.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpNovBhe.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpNovIncLin.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpNovOtros.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpNovedadesFacade.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpNovedadesIFacade.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/dto/OcpNovedadesResponse.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/compiler.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/compiler.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/WsOCP-ear/target/WsOCP-ear-1.0-SNAPSHOT.ear\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/WsOCP-ear/target/WsOCP-ear-1.0-SNAPSHOT.ear\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/WsOCP-ejb/WsOCP-ejb.iml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/WsOCP-ejb/WsOCP-ejb.iml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/ApplicationConfig.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/ApplicationConfig.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"DatabaseView\">\r\n    <option name=\"SHOW_INTERMEDIATE\" value=\"true\" />\r\n    <option name=\"GROUP_DATA_SOURCES\" value=\"true\" />\r\n    <option name=\"GROUP_SCHEMA\" value=\"true\" />\r\n    <option name=\"GROUP_CONTENTS\" value=\"false\" />\r\n    <option name=\"SORT_POSITIONED\" value=\"false\" />\r\n    <option name=\"SHOW_EMPTY_GROUPS\" value=\"false\" />\r\n    <option name=\"AUTO_SCROLL_FROM_SOURCE\" value=\"false\" />\r\n    <option name=\"HIDDEN_KINDS\">\r\n      <set />\r\n    </option>\r\n    <expand>\r\n      <path>\r\n        <item name=\"Database\" type=\"3277223f:DatabaseStructure$DbRootGroup\" />\r\n        <item name=\"Oracle - @localhost\" type=\"feb32156:DbDataSourceImpl\" />\r\n      </path>\r\n      <path>\r\n        <item name=\"Database\" type=\"3277223f:DatabaseStructure$DbRootGroup\" />\r\n        <item name=\"Oracle - @localhost\" type=\"feb32156:DbDataSourceImpl\" />\r\n        <item name=\"SYSTEM: schema\" type=\"3abd1b6a:OraImplModel$Schema\" />\r\n      </path>\r\n      <path>\r\n        <item name=\"Database\" type=\"3277223f:DatabaseStructure$DbRootGroup\" />\r\n        <item name=\"Oracle - @localhost\" type=\"feb32156:DbDataSourceImpl\" />\r\n        <item name=\"SYSTEM: schema\" type=\"3abd1b6a:OraImplModel$Schema\" />\r\n        <item name=\"tables\" type=\"d4e8921:DatabaseStructure$FamilyGroup\" />\r\n      </path>\r\n    </expand>\r\n    <select />\r\n  </component>\r\n  <component name=\"DefaultGradleProjectSettings\">\r\n    <option name=\"isMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"PREVIOUS_COMMIT_AUTHORS\">\r\n      <list>\r\n        <option value=\"dalkien &lt;darktsubzero@gmail.com&gt;\" />\r\n      </list>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n    <option name=\"UPDATE_TYPE\" value=\"MERGE\" />\r\n  </component>\r\n  <component name=\"IgnoredFileRootStore\">\r\n    <option name=\"generatedRoots\">\r\n      <set>\r\n        <option value=\"C:\\Users\\Dalkien\\Documents\\github\\WsOCP\\.idea\" />\r\n      </set>\r\n    </option>\r\n  </component>\r\n  <component name=\"LogFilters\">\r\n    <option name=\"FILTER_ERRORS\" value=\"false\" />\r\n    <option name=\"FILTER_WARNINGS\" value=\"false\" />\r\n    <option name=\"FILTER_INFO\" value=\"true\" />\r\n    <option name=\"FILTER_DEBUG\" value=\"true\" />\r\n    <option name=\"CUSTOM_FILTER\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"importingSettings\">\r\n      <MavenImportingSettings>\r\n        <option name=\"importAutomatically\" value=\"true\" />\r\n      </MavenImportingSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"1bDaY1gIxRrvx3AEoAXBzzCfQqV\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showExcludedFiles\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"DatabaseDriversLRU\" value=\"oracle\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"aspect.path.notification.shown\" value=\"true\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity\" />\r\n    <property name=\"nodejs_interpreter_path.stuck_in_default_project\" value=\"undefined stuck path\" />\r\n    <property name=\"nodejs_npm_path_reset_for_default_project\" value=\"true\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n    <property name=\"project.structure.last.edited\" value=\"Libraries\" />\r\n    <property name=\"project.structure.proportion\" value=\"0.0\" />\r\n    <property name=\"project.structure.side.proportion\" value=\"0.2\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"Errors\" />\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"WebLogic 12.2.1.2.0\" type=\"WebLogic Instance\" factoryName=\"Local\" APPLICATION_SERVER_NAME=\"WebLogic 12.2.1.2.0\" ALTERNATIVE_JRE_ENABLED=\"false\" nameIsGenerated=\"true\">\r\n      <option name=\"PORT\" value=\"7001\" />\r\n      <option name=\"UPDATING_POLICY\" value=\"restart-server\" />\r\n      <deployment>\r\n        <artifact name=\"WsOCP-ear:ear\">\r\n          <settings DEPLOYMENT_METHOD=\"Weblogic.Deployer\">\r\n            <option name=\"CHECK_EJB_CMP_DATASOURCES\" value=\"true\" />\r\n            <option name=\"AS_LIBRARY\" value=\"false\" />\r\n            <option name=\"PLAN\" />\r\n          </settings>\r\n        </artifact>\r\n      </deployment>\r\n      <server-settings>\r\n        <option name=\"DOMAIN_PATH\" value=\"C:/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain\" />\r\n        <option name=\"SERVER_NAME\" value=\"AdminServer\" />\r\n        <option name=\"DOMAIN_NAME\" value=\"base_domain\" />\r\n        <option name=\"ADMIN_SERVER_HOST\" value=\"localhost\" />\r\n        <option name=\"ADMIN_SERVER_PORT\" value=\"7001\" />\r\n        <option name=\"TARGET_TYPE_NAME\" value=\"TYPE_SERVER\" />\r\n        <option name=\"CLUSTER_NAME\" value=\"mycluster\" />\r\n        <option name=\"CONNECT_TO_MANAGED_SERVER\" value=\"false\" />\r\n        <option name=\"USERNAME\" value=\"weblogic\" />\r\n        <option name=\"CREDENTIAL_ALIAS\" value=\"16e4d472-94c9-47f0-872d-17a8a503f8d7\" />\r\n      </server-settings>\r\n      <predefined_log_file enabled=\"true\" id=\"WEBLOGIC_SERVER_LOG_FILE\" />\r\n      <predefined_log_file enabled=\"true\" id=\"WEBLOGIC_DOMAIN_LOG_FILE\" />\r\n      <RunnerSettings RunnerId=\"Debug\">\r\n        <option name=\"DEBUG_PORT\" value=\"63623\" />\r\n      </RunnerSettings>\r\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTIONS\" RunnerId=\"Cover\">\r\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\r\n        <STARTUP>\r\n          <option name=\"USE_DEFAULT\" value=\"true\" />\r\n          <option name=\"SCRIPT\" value=\"\" />\r\n          <option name=\"VM_PARAMETERS\" value=\"\" />\r\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\r\n        </STARTUP>\r\n        <SHUTDOWN>\r\n          <option name=\"USE_DEFAULT\" value=\"true\" />\r\n          <option name=\"SCRIPT\" value=\"\" />\r\n          <option name=\"VM_PARAMETERS\" value=\"\" />\r\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\r\n        </SHUTDOWN>\r\n      </ConfigurationWrapper>\r\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTIONS\" RunnerId=\"Debug\">\r\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\r\n        <STARTUP>\r\n          <option name=\"USE_DEFAULT\" value=\"true\" />\r\n          <option name=\"SCRIPT\" value=\"\" />\r\n          <option name=\"VM_PARAMETERS\" value=\"\" />\r\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\r\n        </STARTUP>\r\n        <SHUTDOWN>\r\n          <option name=\"USE_DEFAULT\" value=\"true\" />\r\n          <option name=\"SCRIPT\" value=\"\" />\r\n          <option name=\"VM_PARAMETERS\" value=\"\" />\r\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\r\n        </SHUTDOWN>\r\n      </ConfigurationWrapper>\r\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTIONS\" RunnerId=\"Run\">\r\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\r\n        <STARTUP>\r\n          <option name=\"USE_DEFAULT\" value=\"true\" />\r\n          <option name=\"SCRIPT\" value=\"\" />\r\n          <option name=\"VM_PARAMETERS\" value=\"\" />\r\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\r\n        </STARTUP>\r\n        <SHUTDOWN>\r\n          <option name=\"USE_DEFAULT\" value=\"true\" />\r\n          <option name=\"SCRIPT\" value=\"\" />\r\n          <option name=\"VM_PARAMETERS\" value=\"\" />\r\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\r\n        </SHUTDOWN>\r\n      </ConfigurationWrapper>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n        <option name=\"BuildArtifacts\" enabled=\"true\">\r\n          <artifact name=\"WsOCP-ear:ear\" />\r\n        </option>\r\n      </method>\r\n    </configuration>\r\n  </component>\r\n  <component name=\"ServiceViewManager\">\r\n    <option name=\"viewStates\">\r\n      <list>\r\n        <serviceView>\r\n          <option name=\"contentProportion\" value=\"0.013931888\" />\r\n          <treeState>\r\n            <expand>\r\n              <path>\r\n                <item name=\"services root\" type=\"e789fda9:ObjectUtils$Sentinel\" />\r\n                <item name=\"WebLogic Server\" type=\"7427dc5b:ServiceModel$ServiceGroupNode\" />\r\n              </path>\r\n              <path>\r\n                <item name=\"services root\" type=\"e789fda9:ObjectUtils$Sentinel\" />\r\n                <item name=\"WebLogic Server\" type=\"7427dc5b:ServiceModel$ServiceGroupNode\" />\r\n                <item name=\"Running\" type=\"7427dc5b:ServiceModel$ServiceGroupNode\" />\r\n              </path>\r\n            </expand>\r\n            <select />\r\n          </treeState>\r\n        </serviceView>\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"7c3b8f5d-80db-4a03-875a-447bf666f603\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1582899996532</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1582899996532</updated>\r\n      <workItem from=\"1582899999770\" duration=\"2818000\" />\r\n      <workItem from=\"1583521352164\" duration=\"5046000\" />\r\n      <workItem from=\"1583766434178\" duration=\"5747000\" />\r\n      <workItem from=\"1583787144101\" duration=\"4823000\" />\r\n      <workItem from=\"1583849678805\" duration=\"21877000\" />\r\n      <workItem from=\"1583934089453\" duration=\"8362000\" />\r\n      <workItem from=\"1584040380258\" duration=\"8543000\" />\r\n      <workItem from=\"1584055787162\" duration=\"546000\" />\r\n      <workItem from=\"1584110653756\" duration=\"13138000\" />\r\n      <workItem from=\"1584387657867\" duration=\"680000\" />\r\n      <workItem from=\"1584477354119\" duration=\"5205000\" />\r\n      <workItem from=\"1584486171831\" duration=\"10898000\" />\r\n      <workItem from=\"1588169163293\" duration=\"26000\" />\r\n      <workItem from=\"1588169318547\" duration=\"15386000\" />\r\n      <workItem from=\"1588284567924\" duration=\"850000\" />\r\n      <workItem from=\"1588350587369\" duration=\"12143000\" />\r\n      <workItem from=\"1588440143914\" duration=\"772000\" />\r\n      <workItem from=\"1588440942061\" duration=\"3161000\" />\r\n      <workItem from=\"1588444793717\" duration=\"473000\" />\r\n      <workItem from=\"1588445286346\" duration=\"20641000\" />\r\n      <workItem from=\"1588517912471\" duration=\"14956000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"ajustes con listas\">\r\n      <created>1588169723115</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1588169723115</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"ajuste de proyecto y listas relaciones\">\r\n      <created>1588404063317</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1588404063317</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"1\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"ajustes con listas\" />\r\n    <MESSAGE value=\"ajuste de proyecto y listas relaciones\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"ajuste de proyecto y listas relaciones\" />\r\n  </component>\r\n  <component name=\"WindowStateProjectService\">\r\n    <state x=\"275\" y=\"22\" key=\"#Assign_Data_Sources\" timestamp=\"1588443904251\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"275\" y=\"22\" key=\"#Assign_Data_Sources/0.0.1366.728@0.0.1366.728\" timestamp=\"1588443904251\" />\r\n    <state x=\"275\" y=\"22\" key=\"#Plugins\" timestamp=\"1588444764063\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"275\" y=\"22\" key=\"#Plugins/0.0.1366.728@0.0.1366.728\" timestamp=\"1588444764063\" />\r\n    <state x=\"275\" y=\"22\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog\" timestamp=\"1588440354086\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"275\" y=\"22\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728\" timestamp=\"1588440354086\" />\r\n    <state x=\"488\" y=\"80\" key=\"#com.intellij.ide.util.MemberChooser\" timestamp=\"1588518468327\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"488\" y=\"80\" key=\"#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728\" timestamp=\"1588518468327\" />\r\n    <state x=\"363\" y=\"100\" key=\"#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog\" timestamp=\"1588276940506\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"363\" y=\"100\" key=\"#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1366.728@0.0.1366.728\" timestamp=\"1588276940506\" />\r\n    <state x=\"266\" y=\"0\" key=\"CommitChangelistDialog2\" timestamp=\"1588404061013\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"266\" y=\"0\" key=\"CommitChangelistDialog2/0.0.1366.728@0.0.1366.728\" timestamp=\"1588404061013\" />\r\n    <state width=\"254\" height=\"195\" key=\"DatabaseViewActions_Filter\" timestamp=\"1588440378498\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"254\" height=\"195\" key=\"DatabaseViewActions_Filter/0.0.1366.728@0.0.1366.728\" timestamp=\"1588440378498\" />\r\n    <state width=\"411\" height=\"466\" key=\"DebuggerActiveHint\" timestamp=\"1588530169515\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"411\" height=\"466\" key=\"DebuggerActiveHint/0.0.1366.728@0.0.1366.728\" timestamp=\"1588530169515\" />\r\n    <state x=\"389\" y=\"105\" key=\"FileChooserDialogImpl\" timestamp=\"1588441158439\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"389\" y=\"105\" key=\"FileChooserDialogImpl/0.0.1366.728@0.0.1366.728\" timestamp=\"1588441158439\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1588583392519\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392519\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.0.center\" timestamp=\"1588583392518\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392518\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.0.left\" timestamp=\"1588583392517\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392517\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.0.right\" timestamp=\"1588583392518\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392518\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.1.bottom\" timestamp=\"1588583392379\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392379\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.1.center\" timestamp=\"1588583392378\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392378\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.1.left\" timestamp=\"1588583392378\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392378\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.1.right\" timestamp=\"1588583392379\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392379\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.2.bottom\" timestamp=\"1588583392379\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.2.bottom/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392379\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.2.center\" timestamp=\"1588583392379\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.2.center/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392379\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.2.left\" timestamp=\"1588583392379\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.2.left/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392379\" />\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.2.right\" timestamp=\"1588583392379\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state width=\"1274\" height=\"258\" key=\"GridCell.Tab.2.right/0.0.1366.728@0.0.1366.728\" timestamp=\"1588583392379\" />\r\n    <state x=\"163\" y=\"0\" key=\"SettingsEditor\" timestamp=\"1588445253484\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"163\" y=\"0\" key=\"SettingsEditor/0.0.1366.728@0.0.1366.728\" timestamp=\"1588445253484\" />\r\n    <state x=\"275\" y=\"97\" key=\"Vcs.Push.Dialog.v2\" timestamp=\"1588404075317\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"275\" y=\"97\" key=\"Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728\" timestamp=\"1588404075317\" />\r\n    <state x=\"379\" y=\"188\" key=\"com.intellij.ide.util.TipDialog\" timestamp=\"1588517913856\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"379\" y=\"188\" key=\"com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728\" timestamp=\"1588517913856\" />\r\n    <state x=\"492\" y=\"281\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2\" timestamp=\"1588584534443\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"492\" y=\"281\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728\" timestamp=\"1588584534443\" />\r\n    <state x=\"379\" y=\"96\" width=\"607\" height=\"536\" key=\"find.popup\" timestamp=\"1588555742229\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"379\" y=\"96\" width=\"607\" height=\"536\" key=\"find.popup/0.0.1366.728@0.0.1366.728\" timestamp=\"1588555742229\" />\r\n    <state x=\"339\" y=\"162\" key=\"run.anything.popup\" timestamp=\"1588445073701\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"339\" y=\"162\" key=\"run.anything.popup/0.0.1366.728@0.0.1366.728\" timestamp=\"1588445073701\" />\r\n    <state x=\"346\" y=\"49\" width=\"672\" height=\"678\" key=\"search.everywhere.popup\" timestamp=\"1588444759892\">\r\n      <screen x=\"0\" y=\"0\" width=\"1366\" height=\"728\" />\r\n    </state>\r\n    <state x=\"346\" y=\"49\" width=\"672\" height=\"678\" key=\"search.everywhere.popup/0.0.1366.728@0.0.1366.728\" timestamp=\"1588444759892\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\r\n          <url>file://$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/service/OcpBaseEmpleadosService.java</url>\r\n          <line>28</line>\r\n          <option name=\"timeStamp\" value=\"2\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n  <component name=\"antWorkspaceConfiguration\">\r\n    <option name=\"IS_AUTOSCROLL_TO_SOURCE\" value=\"false\" />\r\n    <option name=\"FILTER_TARGETS\" value=\"false\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/.idea/workspace.xml	(date 1611073440318)
+@@ -5,67 +5,79 @@
+       <artifact name="WsOCP-ear:ear" />
+     </artifacts-to-build>
+   </component>
+-  <component name="ChangeListManager">
+-    <list default="true" id="7c3b8f5d-80db-4a03-875a-447bf666f603" name="Default Changelist" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/JPAMappingSettings.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/POJOGeneratorSettings.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpNovBheController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpNovIncLinController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/controller/OcpNovOtrosController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpNovBheDao.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpNovIncLinDao.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/dao/OcpNovOtrosDao.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpNovBhe.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpNovIncLin.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/OcpNovOtros.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpNovedadesFacade.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/facade/OcpNovedadesIFacade.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/dto/OcpNovedadesResponse.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/WsOCP-ear/target/WsOCP-ear-1.0-SNAPSHOT.ear" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ear/target/WsOCP-ear-1.0-SNAPSHOT.ear" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/WsOCP-ejb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/WsOCP-ejb.iml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/resources/META-INF/persistence.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/ApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/ApplicationConfig.java" afterDir="false" />
+-    </list>
+-    <option name="SHOW_DIALOG" value="false" />
+-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-    <option name="LAST_RESOLUTION" value="IGNORE" />
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+-  <component name="DatabaseView">
+-    <option name="SHOW_INTERMEDIATE" value="true" />
+-    <option name="GROUP_DATA_SOURCES" value="true" />
+-    <option name="GROUP_SCHEMA" value="true" />
+-    <option name="GROUP_CONTENTS" value="false" />
+-    <option name="SORT_POSITIONED" value="false" />
+-    <option name="SHOW_EMPTY_GROUPS" value="false" />
+-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+-    <option name="HIDDEN_KINDS">
+-      <set />
+-    </option>
++  <component name="BranchesTreeState">
+     <expand>
+       <path>
+-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+-        <item name="Oracle - @localhost" type="feb32156:DbDataSourceImpl" />
++        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
++        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+       </path>
+       <path>
+-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+-        <item name="Oracle - @localhost" type="feb32156:DbDataSourceImpl" />
+-        <item name="SYSTEM: schema" type="3abd1b6a:OraImplModel$Schema" />
++        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
++        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+       </path>
+       <path>
+-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+-        <item name="Oracle - @localhost" type="feb32156:DbDataSourceImpl" />
+-        <item name="SYSTEM: schema" type="3abd1b6a:OraImplModel$Schema" />
+-        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
++        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
++        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
++        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+       </path>
+     </expand>
+     <select />
+   </component>
++  <component name="ChangeListManager">
++    <list default="true" id="7c3b8f5d-80db-4a03-875a-447bf666f603" name="Default Changelist" comment="servicos completados">
++      <change afterPath="$PROJECT_DIR$/.idea/JpaSupport.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/WsOCP.iml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/dto/ArchiveRequest.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/logica/TaskLoad.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/NovedadesProyectos.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity/NovedadesProyectos.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/META-INF/persistence.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/META-INF/persistence.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpBaseEmpleadosController.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpBaseEmpleadosController.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpParametrosController.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpParametrosController.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpParametrosRelacionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpParametrosRelacionController.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/AbstractDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/AbstractDao.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpBaseEmpleadosDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpBaseEmpleadosDao.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpParametrosDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpParametrosDao.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpParametrosRelacionDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpParametrosRelacionDao.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpProyectoDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpProyectoDao.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpBaseEmpleados.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpBaseEmpleados.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpParametros.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpParametros.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpParametrosRelacion.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpParametrosRelacion.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpProyecto.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpProyecto.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpParametrosFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpParametrosFacade.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpProyectoFacade.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpProyectoFacade.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants$CODIGO_EXCEPCION.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants$CODIGO_EXCEPCION.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants$MENSAJE_EXCEPCION.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants$MENSAJE_EXCEPCION.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBUtils.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/ListasParametros.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/classes/co/com/claro/ocp/util/ListasParametros.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpBaseEmpleados_.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametrosRelacion_.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametrosRelacion_.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametros_.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpParametros_.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpProyecto_.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpProyecto_.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/src/main/java/co/com/claro/ocp/ws/OCPNovedadesRest.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/EmpleadosOcpResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/EmpleadosOcpResponse.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/GenericResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/GenericResponse.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/InfoParamOcpResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/InfoParamOcpResponse.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/ListParamOcpResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/ListParamOcpResponse.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/ProyectosOcpResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/dto/ProyectosOcpResponse.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/logica/EncryptDecryptQDN.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/logica/EncryptDecryptQDN.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/ws/ApplicationConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/ws/ApplicationConfig.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/ws/OCP.class" beforeDir="false" afterPath="$PROJECT_DIR$/WsOCP-web/target/classes/co/com/claro/ocp/ws/OCP.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
++    </list>
++    <option name="SHOW_DIALOG" value="false" />
++    <option name="HIGHLIGHT_CONFLICTS" value="true" />
++    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
++    <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
+   <component name="DefaultGradleProjectSettings">
+     <option name="isMigrated" value="true" />
+   </component>
+@@ -84,14 +96,6 @@
+       </list>
+     </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+-    <option name="UPDATE_TYPE" value="MERGE" />
+-  </component>
+-  <component name="IgnoredFileRootStore">
+-    <option name="generatedRoots">
+-      <set>
+-        <option value="C:\Users\Dalkien\Documents\github\WsOCP\.idea" />
+-      </set>
+-    </option>
+   </component>
+   <component name="LogFilters">
+     <option name="FILTER_ERRORS" value="false" />
+@@ -99,32 +103,31 @@
+     <option name="FILTER_INFO" value="true" />
+     <option name="FILTER_DEBUG" value="true" />
+     <option name="CUSTOM_FILTER" />
+-  </component>
+-  <component name="MavenImportPreferences">
+-    <option name="importingSettings">
+-      <MavenImportingSettings>
+-        <option name="importAutomatically" value="true" />
+-      </MavenImportingSettings>
+-    </option>
+   </component>
+   <component name="ProjectId" id="1bDaY1gIxRrvx3AEoAXBzzCfQqV" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+-    <option name="showExcludedFiles" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+   <component name="PropertiesComponent">
+     <property name="DatabaseDriversLRU" value="oracle" />
++    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+     <property name="WebServerToolWindowFactoryState" value="false" />
+     <property name="aspect.path.notification.shown" value="true" />
+-    <property name="last_opened_file_path" value="$PROJECT_DIR$/WsOCP-ejb/src/main/java/co/com/claro/ocp/entity" />
++    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/JOHAN/pruebsgit" />
++    <property name="node.js.detected.package.eslint" value="true" />
++    <property name="node.js.detected.package.tslint" value="true" />
++    <property name="node.js.path.for.package.eslint" value="project" />
++    <property name="node.js.path.for.package.tslint" value="project" />
++    <property name="node.js.selected.package.eslint" value="(autodetect)" />
++    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+     <property name="nodejs_package_manager_path" value="npm" />
+-    <property name="project.structure.last.edited" value="Libraries" />
+-    <property name="project.structure.proportion" value="0.0" />
++    <property name="project.structure.last.edited" value="Modules" />
++    <property name="project.structure.proportion" value="0.15" />
+     <property name="project.structure.side.proportion" value="0.2" />
+     <property name="settings.editor.selected.configurable" value="Errors" />
+   </component>
+@@ -142,7 +145,7 @@
+         </artifact>
+       </deployment>
+       <server-settings>
+-        <option name="DOMAIN_PATH" value="C:/Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain" />
++        <option name="DOMAIN_PATH" value="$PROJECT_DIR$/../../../../../Oracle/Middleware/Oracle_Home/user_projects/domains/base_domain" />
+         <option name="SERVER_NAME" value="AdminServer" />
+         <option name="DOMAIN_NAME" value="base_domain" />
+         <option name="ADMIN_SERVER_HOST" value="localhost" />
+@@ -211,29 +214,7 @@
+       </method>
+     </configuration>
+   </component>
+-  <component name="ServiceViewManager">
+-    <option name="viewStates">
+-      <list>
+-        <serviceView>
+-          <option name="contentProportion" value="0.013931888" />
+-          <treeState>
+-            <expand>
+-              <path>
+-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+-                <item name="WebLogic Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+-              </path>
+-              <path>
+-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+-                <item name="WebLogic Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+-                <item name="Running" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+-              </path>
+-            </expand>
+-            <select />
+-          </treeState>
+-        </serviceView>
+-      </list>
+-    </option>
+-  </component>
++  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="SvnConfiguration">
+     <configuration />
+   </component>
+@@ -264,7 +245,35 @@
+       <workItem from="1588440942061" duration="3161000" />
+       <workItem from="1588444793717" duration="473000" />
+       <workItem from="1588445286346" duration="20641000" />
+-      <workItem from="1588517912471" duration="14956000" />
++      <workItem from="1588517912471" duration="15055000" />
++      <workItem from="1588597897630" duration="6476000" />
++      <workItem from="1588973391744" duration="674000" />
++      <workItem from="1588981087363" duration="96000" />
++      <workItem from="1588981330065" duration="111000" />
++      <workItem from="1589255355354" duration="829000" />
++      <workItem from="1591102629138" duration="1209000" />
++      <workItem from="1594648926877" duration="449000" />
++      <workItem from="1594692506911" duration="1136000" />
++      <workItem from="1594694001796" duration="736000" />
++      <workItem from="1595280887098" duration="670000" />
++      <workItem from="1595281578962" duration="582000" />
++      <workItem from="1595282604375" duration="8000" />
++      <workItem from="1595361828213" duration="3833000" />
++      <workItem from="1595467339379" duration="30000" />
++      <workItem from="1595467447806" duration="42000" />
++      <workItem from="1595467525513" duration="3000" />
++      <workItem from="1604972734163" duration="4918000" />
++      <workItem from="1604981016407" duration="14000" />
++      <workItem from="1605375459944" duration="1918000" />
++      <workItem from="1605487194731" duration="11739000" />
++      <workItem from="1605726167599" duration="803000" />
++      <workItem from="1605813608859" duration="11335000" />
++      <workItem from="1605876628873" duration="3927000" />
++      <workItem from="1606425244736" duration="6327000" />
++      <workItem from="1606506498777" duration="3760000" />
++      <workItem from="1606852595740" duration="10346000" />
++      <workItem from="1611007282430" duration="614000" />
++      <workItem from="1611072758958" duration="669000" />
+     </task>
+     <task id="LOCAL-00001" summary="ajustes con listas">
+       <created>1588169723115</created>
+@@ -280,130 +289,52 @@
+       <option name="project" value="LOCAL" />
+       <updated>1588404063317</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="servicos completados">
++      <created>1588584593685</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1588584593685</updated>
++    </task>
++    <task id="LOCAL-00004" summary="nuevas tablas">
++      <created>1605726332462</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1605726332462</updated>
++    </task>
++    <task id="LOCAL-00005" summary="servicios harold">
++      <created>1605880529985</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1605880529986</updated>
++    </task>
++    <option name="localTasksCounter" value="6" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+-    <option name="version" value="1" />
++    <option name="version" value="3" />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++    <option name="oldMeFiltersMigrated" value="true" />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="ajustes con listas" />
+     <MESSAGE value="ajuste de proyecto y listas relaciones" />
+-    <option name="LAST_COMMIT_MESSAGE" value="ajuste de proyecto y listas relaciones" />
+-  </component>
+-  <component name="WindowStateProjectService">
+-    <state x="275" y="22" key="#Assign_Data_Sources" timestamp="1588443904251">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="275" y="22" key="#Assign_Data_Sources/0.0.1366.728@0.0.1366.728" timestamp="1588443904251" />
+-    <state x="275" y="22" key="#Plugins" timestamp="1588444764063">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="275" y="22" key="#Plugins/0.0.1366.728@0.0.1366.728" timestamp="1588444764063" />
+-    <state x="275" y="22" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588440354086">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="275" y="22" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1588440354086" />
+-    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1588518468327">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1588518468327" />
+-    <state x="363" y="100" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1588276940506">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="363" y="100" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1366.728@0.0.1366.728" timestamp="1588276940506" />
+-    <state x="266" y="0" key="CommitChangelistDialog2" timestamp="1588404061013">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="266" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1588404061013" />
+-    <state width="254" height="195" key="DatabaseViewActions_Filter" timestamp="1588440378498">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="254" height="195" key="DatabaseViewActions_Filter/0.0.1366.728@0.0.1366.728" timestamp="1588440378498" />
+-    <state width="411" height="466" key="DebuggerActiveHint" timestamp="1588530169515">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="411" height="466" key="DebuggerActiveHint/0.0.1366.728@0.0.1366.728" timestamp="1588530169515" />
+-    <state x="389" y="105" key="FileChooserDialogImpl" timestamp="1588441158439">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="389" y="105" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1588441158439" />
+-    <state width="1274" height="258" key="GridCell.Tab.0.bottom" timestamp="1588583392519">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1588583392519" />
+-    <state width="1274" height="258" key="GridCell.Tab.0.center" timestamp="1588583392518">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1588583392518" />
+-    <state width="1274" height="258" key="GridCell.Tab.0.left" timestamp="1588583392517">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1588583392517" />
+-    <state width="1274" height="258" key="GridCell.Tab.0.right" timestamp="1588583392518">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1588583392518" />
+-    <state width="1274" height="258" key="GridCell.Tab.1.bottom" timestamp="1588583392379">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1588583392379" />
+-    <state width="1274" height="258" key="GridCell.Tab.1.center" timestamp="1588583392378">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1588583392378" />
+-    <state width="1274" height="258" key="GridCell.Tab.1.left" timestamp="1588583392378">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1588583392378" />
+-    <state width="1274" height="258" key="GridCell.Tab.1.right" timestamp="1588583392379">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1588583392379" />
+-    <state width="1274" height="258" key="GridCell.Tab.2.bottom" timestamp="1588583392379">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.2.bottom/0.0.1366.728@0.0.1366.728" timestamp="1588583392379" />
+-    <state width="1274" height="258" key="GridCell.Tab.2.center" timestamp="1588583392379">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.2.center/0.0.1366.728@0.0.1366.728" timestamp="1588583392379" />
+-    <state width="1274" height="258" key="GridCell.Tab.2.left" timestamp="1588583392379">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.2.left/0.0.1366.728@0.0.1366.728" timestamp="1588583392379" />
+-    <state width="1274" height="258" key="GridCell.Tab.2.right" timestamp="1588583392379">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state width="1274" height="258" key="GridCell.Tab.2.right/0.0.1366.728@0.0.1366.728" timestamp="1588583392379" />
+-    <state x="163" y="0" key="SettingsEditor" timestamp="1588445253484">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="163" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1588445253484" />
+-    <state x="275" y="97" key="Vcs.Push.Dialog.v2" timestamp="1588404075317">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="275" y="97" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1588404075317" />
+-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1588517913856">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="379" y="188" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1588517913856" />
+-    <state x="492" y="281" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588584534443">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="492" y="281" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1366.728@0.0.1366.728" timestamp="1588584534443" />
+-    <state x="379" y="96" width="607" height="536" key="find.popup" timestamp="1588555742229">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="379" y="96" width="607" height="536" key="find.popup/0.0.1366.728@0.0.1366.728" timestamp="1588555742229" />
+-    <state x="339" y="162" key="run.anything.popup" timestamp="1588445073701">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="339" y="162" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1588445073701" />
+-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1588444759892">
+-      <screen x="0" y="0" width="1366" height="728" />
+-    </state>
+-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1588444759892" />
++    <MESSAGE value="servicos completados" />
++    <MESSAGE value="nuevas tablas" />
++    <MESSAGE value="servicios harold" />
++    <option name="LAST_COMMIT_MESSAGE" value="servicios harold" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile default=\"true\" name=\"Default\" enabled=\"true\" />\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"WsOCP-ear\" />\r\n        <module name=\"WsOCP-ejb\" />\r\n        <module name=\"WsOCP-web\" />\r\n        <module name=\"Wsocp-ejb\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n  </component>\r\n  <component name=\"JavacSettings\">\r\n    <option name=\"ADDITIONAL_OPTIONS_OVERRIDE\">\r\n      <module name=\"WsOCP-ejb\" options=\"-endorseddirs C:\\Users\\Dalkien\\Documents\\github\\WsOCP\\WsOCP-ejb\\target/endorsed\" />\r\n      <module name=\"WsOCP-web\" options=\"-endorseddirs C:\\Users\\Dalkien\\Documents\\github\\WsOCP\\WsOCP-web\\target/endorsed\" />\r\n      <module name=\"Wsocp-ejb\" options=\"-endorseddirs C:\\Users\\madrigalo\\Documents\\github\\WsOCP\\WsOCP-ejb\\target/endorsed\" />\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/.idea/compiler.xml	(date 1611072787526)
+@@ -7,10 +7,10 @@
+         <sourceOutputDir name="target/generated-sources/annotations" />
+         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+         <outputRelativeToContentRoot value="true" />
+-        <module name="WsOCP-ear" />
+-        <module name="WsOCP-ejb" />
+         <module name="WsOCP-web" />
+         <module name="Wsocp-ejb" />
++        <module name="WsOCP-ear" />
++        <module name="WsOCP-ejb" />
+       </profile>
+     </annotationProcessing>
+   </component>
+Index: WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpProyecto_.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package co.com.claro.ocp.entity;\r\n\r\nimport java.util.Date;\r\nimport javax.annotation.Generated;\r\nimport javax.persistence.metamodel.SingularAttribute;\r\nimport javax.persistence.metamodel.StaticMetamodel;\r\n\r\n@Generated(value = \"EclipseLink-2.5.2.v20140319-rNA\", date = \"2020-07-13T21:42:04\")\r\n@StaticMetamodel(OcpProyecto.class)\r\npublic class OcpProyecto_ {\r\n\r\n    public static volatile SingularAttribute<OcpProyecto, Long> factorProvIndem;\r\n    public static volatile SingularAttribute<OcpProyecto, Date> fecCargue;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> valorTarifa2;\r\n    public static volatile SingularAttribute<OcpProyecto, String> alcance;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idEstadoProyecto;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> valorTarifa3;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idDireccion;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idCliente;\r\n    public static volatile SingularAttribute<OcpProyecto, Date> fechaInicio;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idTipoAlianza;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> costoPlaneado;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idDirector;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> factorICA;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idCategoria;\r\n    public static volatile SingularAttribute<OcpProyecto, String> comentarios;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> valorFormalHost;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idGerente;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idClasificacionVenta;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idTipoProyecto;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> valorTarifa;\r\n    public static volatile SingularAttribute<OcpProyecto, Date> fechaFin;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idMoneda;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> ftePlaneado;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> codProyecto;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idTipoTarifa;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idLineaNegocio;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> duracion;\r\n    public static volatile SingularAttribute<OcpProyecto, String> usuario;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idServicio;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> margenPlanaedo;\r\n    public static volatile SingularAttribute<OcpProyecto, Long> idTipoServicio;\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpProyecto_.java b/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpProyecto_.java
+--- a/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpProyecto_.java	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/WsOCP-ejb/target/generated-sources/annotations/co/com/claro/ocp/entity/OcpProyecto_.java	(date 1606425644940)
+@@ -5,9 +5,9 @@
+ import javax.persistence.metamodel.SingularAttribute;
+ import javax.persistence.metamodel.StaticMetamodel;
+ 
+-@Generated(value = "EclipseLink-2.5.2.v20140319-rNA", date = "2020-07-13T21:42:04")
++@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2020-11-20T08:30:35")
+ @StaticMetamodel(OcpProyecto.class)
+-public class OcpProyecto_ {
++public class OcpProyecto_ { 
+ 
+     public static volatile SingularAttribute<OcpProyecto, Long> factorProvIndem;
+     public static volatile SingularAttribute<OcpProyecto, Date> fecCargue;
+Index: WsOCP-web/src/main/java/co/com/claro/ocp/dto/ArchiveRequest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-web/src/main/java/co/com/claro/ocp/dto/ArchiveRequest.java b/WsOCP-web/src/main/java/co/com/claro/ocp/dto/ArchiveRequest.java
+new file mode 100644
+--- /dev/null	(date 1606427787875)
++++ b/WsOCP-web/src/main/java/co/com/claro/ocp/dto/ArchiveRequest.java	(date 1606427787875)
+@@ -0,0 +1,26 @@
++package co.com.claro.ocp.dto;
++
++import lombok.Data;
++import lombok.Getter;
++import lombok.Setter;
++@Data
++public class ArchiveRequest {
++
++    @Getter
++    @Setter
++    private String archivo;
++
++    @Getter
++    @Setter
++    private String nombre;
++
++    @Getter
++    @Setter
++    private String tipo;
++
++    @Getter
++    @Setter
++    private String novedad;
++
++   /* atribute archivo nomre archivo tipo novedad*/
++}
+Index: .idea/JpaSupport.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/JpaSupport.xml b/.idea/JpaSupport.xml
+new file mode 100644
+--- /dev/null	(date 1606425645002)
++++ b/.idea/JpaSupport.xml	(date 1606425645002)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="DatabaseSettingsState">
++    <option name="language" value="es-CO" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/dataSources.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DataSourceManagerImpl\" format=\"xml\" multifile-model=\"true\">\r\n    <data-source source=\"LOCAL\" name=\"Oracle - @localhost\" uuid=\"1b39093e-7ff9-4934-b0fd-3ef99626e6fb\">\r\n      <driver-ref>oracle</driver-ref>\r\n      <synchronize>true</synchronize>\r\n      <remarks>local OCP</remarks>\r\n      <auto-commit>false</auto-commit>\r\n      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>\r\n      <jdbc-url>jdbc:oracle:thin:@localhost:1521:Orcl</jdbc-url>\r\n    </data-source>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/dataSources.xml b/.idea/dataSources.xml
+--- a/.idea/dataSources.xml	(revision d1c5f0c9be4ebee8fc79ef23de565c8dcf1d5aa4)
++++ b/.idea/dataSources.xml	(date 1606425644987)
+@@ -9,5 +9,12 @@
+       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+       <jdbc-url>jdbc:oracle:thin:@localhost:1521:Orcl</jdbc-url>
+     </data-source>
++    <data-source source="LOCAL" name="@localhost" uuid="b6c6ce16-8bd3-464c-badc-42a29089f559">
++      <driver-ref>oracle</driver-ref>
++      <synchronize>true</synchronize>
++      <auto-commit>false</auto-commit>
++      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
++      <jdbc-url>jdbc:oracle:thin:@localhost:1521:XE</jdbc-url>
++    </data-source>
+   </component>
+ </project>
+\ No newline at end of file
+Index: WsOCP-web/src/main/java/co/com/claro/ocp/logica/TaskLoad.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/WsOCP-web/src/main/java/co/com/claro/ocp/logica/TaskLoad.java b/WsOCP-web/src/main/java/co/com/claro/ocp/logica/TaskLoad.java
+new file mode 100644
+--- /dev/null	(date 1606863236632)
++++ b/WsOCP-web/src/main/java/co/com/claro/ocp/logica/TaskLoad.java	(date 1606863236632)
+@@ -0,0 +1,92 @@
++package co.com.claro.ocp.logica;
++
++import co.com.claro.ocp.dto.ArchiveRequest;
++import co.com.claro.ocp.entity.NovedadesEmpleados;
++import co.com.claro.ocp.entity.NovedadesProyectos;
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++import lombok.Setter;
++
++import java.io.File;
++import java.io.FileOutputStream;
++import java.io.FileReader;
++import java.sql.Date;
++import java.text.SimpleDateFormat;
++import java.util.Base64;
++
++@NoArgsConstructor
++public class TaskLoad implements Runnable{
++
++    @Getter
++    @Setter
++    private ArchiveRequest archivo;
++
++    @Override
++
++    public void run() {
++        System.out.println("task ok");
++        try{
++            File file = new File("./" + archivo.getNombre() + "."+ archivo.getTipo());
++            archivo.setArchivo("MzttYXVyaWNpbzsyODtnYXk=");
++            byte[] decoder = Base64.getDecoder().decode(archivo.getArchivo());
++            FileOutputStream fileOut = new FileOutputStream(file);
++            fileOut.write(decoder);
++            fileOut.close();
++            //Abro el stream, el fichero debe existir
++            FileReader fr=new FileReader("./" + archivo.getNombre() + "."+ archivo.getTipo());
++            //Leemos el fichero y lo mostramos por pantalla
++            int valor=fr.read();
++            while(valor!=-1){
++                NovedadesProyectos proyectos = new NovedadesProyectos();
++                NovedadesEmpleados empleados = new NovedadesEmpleados();
++                System.out.print("datp");
++                String valor2 =String.valueOf((char) valor);
++                String[] valor3 = valor2.split("\\;");
++                if (archivo.getNovedad().equals("proyecto")){
++                    proyectos.setId(Long.parseLong(valor3[0]));
++                    proyectos.setProyecto(valor3[1]);
++                    proyectos.setEstadoDeproyecto(valor3[2]);
++                    proyectos.setGerenteSquad(valor3[3]);
++                    proyectos.setDireccion(valor3[4]);
++                    proyectos.setDatacenter(Long.parseLong(valor3[5]));
++                    proyectos.setEquipos(Long.parseLong(valor3[6]));
++                    proyectos.setTaxis(Long.parseLong(valor3[7]));
++                    proyectos.setCajaMenor(Long.parseLong(valor3[8]));
++                    proyectos.setCelulares(Long.parseLong(valor3[9]));
++                    proyectos.setExamenMedico(Long.parseLong(valor3[10]));
++                    proyectos.setBonosGtes(Long.parseLong(valor3[11]));
++                    proyectos.setLicencias365Usd(Long.parseLong(valor3[12]));
++                    proyectos.setColumnasAlternativas(valor3[13]);
++                    SimpleDateFormat sdf= new SimpleDateFormat ("dd/MM/yy");
++                    Date date1  = (Date) sdf.parse(valor3[14]);
++                    proyectos.setFechaCreacion(date1);
++                    proyectos.setLicencias365Cops(Long.parseLong(valor3[15]));
++                }else if (archivo.getNovedad().equals("empleado")){
++
++                    System.out.print("datp");
++                    empleados.setId(Long.parseLong(valor3[0]));
++                    empleados.setCodigo(valor3[1]);
++                    empleados.setCedula(Long.parseLong(valor3[2]));
++                    empleados.setEmpleado(valor3[3]);
++                    empleados.setIdProyecto(Long.parseLong(valor3[4]));
++                    empleados.setProyecto(valor3[5]);
++                    empleados.setEstadoProyecto(valor3[6]);
++                    empleados.setGerenteSquad(valor3[7]);
++                    empleados.setDireccion(valor3[8]);
++                    empleados.setVacaciones(Long.parseLong(valor3[9]));
++                    empleados.setAusencias(Long.parseLong(valor3[10]));
++                    empleados.setObservaciones(valor3[11]);
++                    empleados.setBonos(Long.parseLong(valor3[12]));
++                    empleados.setHorasExtras(Long.parseLong(valor3[13]));
++                    empleados.setOtrosCostos(Long.parseLong(valor3[14]));
++                }else{
++                    System.out.println("novedad no asignada en archivo");
++                }
++            }
++            //Cerramos el stream;
++            fr.close();
++        }catch (Exception e){
++            e.printStackTrace();
++        }
++    }
++}
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	(date 1606425645018)
++++ b/.idea/jarRepositories.xml	(date 1606425645018)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Central Repository" />
++      <option name="url" value="https://repo.maven.apache.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file

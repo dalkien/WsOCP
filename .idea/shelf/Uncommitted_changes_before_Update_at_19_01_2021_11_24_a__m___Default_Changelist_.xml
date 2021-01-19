@@ -1,0 +1,144 @@
+<changelist name="Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]" date="1611073444755" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 19/01/2021 11:24 a. m. [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/logica/EncryptDecryptQDN.class" />
+    <option name="AFTER_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/logica/EncryptDecryptQDN.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/EncryptDecryptQDN.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/ListParamOcpResponse.class" />
+    <option name="AFTER_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/ListParamOcpResponse.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/ListParamOcpResponse.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/InfoParamOcpResponse.class" />
+    <option name="AFTER_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/InfoParamOcpResponse.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/InfoParamOcpResponse.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpParametrosRelacion.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpParametrosRelacion.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpParametrosRelacion.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBUtils.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBUtils.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/EJBUtils.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/ws/OCP.class" />
+    <option name="AFTER_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/ws/OCP.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OCP.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpProyectoFacade.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpProyectoFacade.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpProyectoFacade.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants$CODIGO_EXCEPCION.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants$CODIGO_EXCEPCION.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/EJBConstants$CODIGO_EXCEPCION.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpParametrosController.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpParametrosController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpParametrosController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/EmpleadosOcpResponse.class" />
+    <option name="AFTER_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/EmpleadosOcpResponse.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/EmpleadosOcpResponse.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpBaseEmpleadosController.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpBaseEmpleadosController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpBaseEmpleadosController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/EJBConstants.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpBaseEmpleadosFacade.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpBaseEmpleadosFacade.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/ProyectosOcpResponse.class" />
+    <option name="AFTER_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/ProyectosOcpResponse.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/ProyectosOcpResponse.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpParametrosRelacionDao.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpParametrosRelacionDao.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpParametrosRelacionDao.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpProyectoDao.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpProyectoDao.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpProyectoDao.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpParametrosFacade.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/facade/OcpParametrosFacade.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpParametrosFacade.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpParametros.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpParametros.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpParametros.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpParametrosDao.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpParametrosDao.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpParametrosDao.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpBaseEmpleadosDao.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/OcpBaseEmpleadosDao.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpBaseEmpleadosDao.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/GenericResponse.class" />
+    <option name="AFTER_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/dto/GenericResponse.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/GenericResponse.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpBaseEmpleados.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpBaseEmpleados.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpBaseEmpleados.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants$MENSAJE_EXCEPCION.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/EJBConstants$MENSAJE_EXCEPCION.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/EJBConstants$MENSAJE_EXCEPCION.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpParametrosRelacionController.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/controller/OcpParametrosRelacionController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpParametrosRelacionController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/AbstractDao.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/dao/AbstractDao.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/AbstractDao.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpProyecto.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/entity/OcpProyecto.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/OcpProyecto.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/ListasParametros.class" />
+    <option name="AFTER_PATH" value="WsOCP-ejb/target/classes/co/com/claro/ocp/util/ListasParametros.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/ListasParametros.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/ws/ApplicationConfig.class" />
+    <option name="AFTER_PATH" value="WsOCP-web/target/classes/co/com/claro/ocp/ws/ApplicationConfig.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_01_2021_11_24_a__m__[Default_Changelist]/ApplicationConfig.class" />
+  </binary>
+</changelist>
