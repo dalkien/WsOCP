@@ -27,8 +27,16 @@ public class OcpParametrosRelacionController {
             "where a.id_parametro = b.id_parametro  order by  a.id_parametro";
 
     private final String QUERY_PARAMETROS = "select a.ID_PARAMETRO parametro, a.ID_SUB_PARAMETRO subparametro , " +
-            "(select OCP_PARAMETROS.NOMBRE_PARAMETRO from OCP_PARAMETROS where a.ID_SUB_PARAMETRO = OCP_PARAMETROS.ID_PARAMETRO ) nombre  , " +
-            "(select OCP_PARAMETROS.COMENTARIOS from OCP_PARAMETROS where a.ID_SUB_PARAMETRO = OCP_PARAMETROS.ID_PARAMETRO ) comentario " +
+            "(select OCP_PARAMETROS.NOMBRE_PARAMETRO from OCP_PARAMETROS where a.ID_SUB_PARAMETRO = OCP_PARAMETROS.ID_PARAMETRO FETCH FIRST 1 ROW only) nombre  , " +
+            "(select OCP_PARAMETROS.COMENTARIOS from OCP_PARAMETROS where a.ID_SUB_PARAMETRO = OCP_PARAMETROS.ID_PARAMETRO FETCH FIRST 1 ROW only) comentario " +
+            "from OCP_PARAMETROS_RELACION a,  OCP_PARAMETROS b  " +
+//            "where b.ID_PARAMETRO = a.ID_RELACION ";
+            "where b.ID_PARAMETRO = a.ID_RELACION and a.ID_PARAMETRO = ?";
+
+    private final String
+            QUERY_PARAMETROS_ZERO = "select a.ID_PARAMETRO parametro, a.ID_SUB_PARAMETRO subparametro , " +
+            "(select OCP_PARAMETROS.NOMBRE_PARAMETRO from OCP_PARAMETROS where a.ID_SUB_PARAMETRO = OCP_PARAMETROS.ID_PARAMETRO FETCH FIRST 1 ROW only) nombre  , " +
+            "(select OCP_PARAMETROS.COMENTARIOS from OCP_PARAMETROS where a.ID_SUB_PARAMETRO = OCP_PARAMETROS.ID_PARAMETRO FETCH FIRST 1 ROW only) comentario " +
             "from OCP_PARAMETROS_RELACION a,  OCP_PARAMETROS b  " +
             "where b.ID_PARAMETRO = a.ID_RELACION ";
 //            "where b.ID_PARAMETRO = a.ID_RELACION and a.ID_PARAMETRO = ?";
@@ -83,9 +91,10 @@ public class OcpParametrosRelacionController {
     public List<InformacionParametros> infParameters(Long valor) {
         List<InformacionParametros> subParametetros = new ArrayList<>();
         try {
+            String query = valor !=0 ? QUERY_PARAMETROS : QUERY_PARAMETROS_ZERO ;
             List<Object[]> subPara = this.entityManager
-                    .createNativeQuery(QUERY_PARAMETROS)
-//                    .setParameter(1,valor)
+                    .createNativeQuery(query)
+                    .setParameter(1,valor)
                     .getResultList();
             for (Object[] result : subPara) {
                 BigDecimal val1 = (BigDecimal) result[0];

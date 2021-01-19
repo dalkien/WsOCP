@@ -59,4 +59,14 @@ public class OcpCamposParametros {
     @Setter
     private String regex;
 
+    @Column(name = "FIJO", nullable = false)
+    @Getter
+    @Setter
+    private String fijo;
+
+    @Column(name = "AUTORIZADO", nullable = false)
+    @Getter
+    @Setter
+    private String autorizado;
+
 }

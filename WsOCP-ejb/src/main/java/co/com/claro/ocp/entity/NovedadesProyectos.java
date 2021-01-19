@@ -84,5 +84,9 @@ public class NovedadesProyectos{
     @Getter @Setter
     private Long licencias365Cops;
 
+    @Column (name = "TIPO_CAMBIO",nullable = true)
+    @Getter @Setter
+    private Long tipoCambio;
+
 }
 

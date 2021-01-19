@@ -100,7 +100,18 @@ public class OCPParametrosRest {
     public GenericResponse updateCampoParam(OcpCamposParametros param){
         GenericResponse response = new GenericResponse("OK", "OK", "00");
         try {
-            this.camposParametrosIFacade.updateCampoParam(param);
+            OcpCamposParametros campBf = new OcpCamposParametros();
+            campBf = this.camposParametrosIFacade.findCampoParamById(param.getId());
+
+            if ( campBf.getFijo()== null || campBf.getFijo().equals("0") ){
+                this.camposParametrosIFacade.updateCampoParam(param);
+            }else if(campBf.getFijo().equals("0") && campBf.getAutorizado().equals(param.getAutorizado())){
+                this.camposParametrosIFacade.updateCampoParam(param);
+            }else {
+                response.setReturnCode("99");
+                response.setDescripcion("Autorizado no corresponde a actualizacion");
+                response.setMessageCode("Operacion no permitida");
+            }
         }catch (Exception e){
             e.printStackTrace();
             response.setReturnCode("99");
