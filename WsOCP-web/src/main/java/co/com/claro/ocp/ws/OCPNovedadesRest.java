@@ -49,6 +49,8 @@ public class OCPNovedadesRest {
     @Path("cargarLista")
     public GenericResponse getAllListParam(ArchiveRequest file) {
         TaskLoad task = new TaskLoad();
+        task.setEmpleadosIFacade(novedadesEmpleadosIFacade);
+        task.setProyectosIFacade(novedadesProyectosIFacade);
         GenericResponse generic = new GenericResponse("Ok","Ok","00");
         try {
             task.setArchivo(file);

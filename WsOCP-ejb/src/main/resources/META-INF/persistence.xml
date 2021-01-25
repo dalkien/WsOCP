@@ -14,6 +14,7 @@
         <class>co.com.claro.ocp.entity.NovedadesProyectos</class>
         <class>co.com.claro.ocp.entity.NovedadesEmpleados</class>
         <class>co.com.claro.ocp.entity.OcpCamposParametros</class>
+        <class>co.com.claro.ocp.entity.OcpDnfHistorial</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
         <properties>
