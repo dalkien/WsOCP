@@ -21,6 +21,12 @@ public class NovedadesEmpleados {
 
     @Id
     @Column(name = "ID", nullable = false)
+    @NotNull
+    @SequenceGenerator(name = "NOVEDADES_EMPLEADOS_SEQ",
+            sequenceName = "NOVEDADES_EMPLEADOS_SEQ",
+            initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO,
+            generator = "NOVEDADES_EMPLEADOS_SEQ")
     @Getter @Setter
     private Long id;
 
@@ -96,6 +102,8 @@ public class NovedadesEmpleados {
     @Getter @Setter
     private String observacionesNomina;
 
-
+    @Column(name = "COLUMNAS_ALTERNATIVAS", nullable = true)
+    @Getter @Setter
+    private String columnasAlternativas;
 
 }

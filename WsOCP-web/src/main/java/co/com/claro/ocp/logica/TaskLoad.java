@@ -8,9 +8,9 @@ import co.com.claro.ocp.facade.NovedadesProyectosIFacade;
 import lombok.*;
 
 import javax.ejb.EJB;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
+import javax.ejb.TransactionManagement;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -19,6 +19,7 @@ import java.util.Base64;
 @AllArgsConstructor
 @Data
 @ToString
+@TransactionManagement
 public class TaskLoad implements Runnable{
 
     @EJB
@@ -36,24 +37,23 @@ public class TaskLoad implements Runnable{
     public void run() {
         System.out.println("task ok");
         try{
+            byte[] data = Base64.getDecoder().decode(archivo.getArchivo().getBytes(StandardCharsets.UTF_8));
             File file = new File("./" + archivo.getNombre() + "."+ archivo.getTipo());
-           // archivo.setArchivo("MzttYXVyaWNpbzsyODtnYXk=");
-           // byte[] decoder = Base64.getDecoder().decode(archivo.getArchivo());
-           // FileOutputStream fileOut = new FileOutputStream(file);
-           // fileOut.write(decoder);
-           // fileOut.close();
+            OutputStream stream = new FileOutputStream(file);
+            stream.write(data);
+            stream.close();
             //Abro el stream, el fichero debe existir
-            FileReader fr=new FileReader("./" + archivo.getNombre() + "."+ archivo.getTipo());
+            FileReader fr=new FileReader(file);
             //Leemos el fichero y lo mostramos por pantalla
-            int valor=fr.read();
-            while(valor!=-1){
+            BufferedReader bf = new BufferedReader(fr);
+            String valor = "";
+            while((valor = bf.readLine()) != null){
                 NovedadesProyectos proyectos = new NovedadesProyectos();
                 NovedadesEmpleados empleados = new NovedadesEmpleados();
                 System.out.print("datp");
-                String valor2 =String.valueOf((char) valor);
-                String[] valor3 = valor2.split("\\;");
+                String[] valor3 = valor.split("\\;");
                 if (archivo.getNovedad().equals("proyecto")){
-                    proyectos.setId(Long.parseLong(valor3[0]));
+                    //proyectos.setId(Long.parseLong(valor3[0]));
                     proyectos.setProyecto(valor3[1]);
                     proyectos.setEstadoDeproyecto(valor3[2]);
                     proyectos.setGerenteSquad(valor3[3]);
@@ -73,7 +73,7 @@ public class TaskLoad implements Runnable{
                     proyectos.setLicencias365Cops(Long.parseLong(valor3[15]));
                 }else if (archivo.getNovedad().equals("empleado")){
                     System.out.print("datp");
-                    empleados.setId(Long.parseLong(valor3[0]));
+                    //empleados.setId(Long.parseLong(valor3[0]));
                     empleados.setCodigo(valor3[1]);
                     empleados.setCedula(Long.parseLong(valor3[2]));
                     empleados.setEmpleado(valor3[3]);
@@ -88,8 +88,25 @@ public class TaskLoad implements Runnable{
                     empleados.setBonos(Long.parseLong(valor3[12]));
                     empleados.setHorasExtras(Long.parseLong(valor3[13]));
                     empleados.setOtrosCostos(Long.parseLong(valor3[14]));
+                    empleados.setHorasMes(Long.parseLong(valor3[15]));
+                    empleados.setCostoRRHH(Long.parseLong(valor3[16]));
+                    empleados.setIncapacidadDias(Long.parseLong(valor3[17]));
+                    empleados.setObservacionesNomina(valor3[18]);
+                    empleados.setColumnasAlternativas(valor3[19]);
+
                 }else{
                     System.out.println("novedad no asignada en archivo");
+                }
+                try {
+                    if (archivo.getNovedad().equals("proyecto")){
+                        this.proyectosIFacade.creaNovedadProyecto(proyectos);
+                    }else if (archivo.getNovedad().equals("empleado")){
+                        this.empleadosIFacade.crearNovedadEmp(empleados);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }finally {
+                    continue;
                 }
             }
             //Cerramos el stream;

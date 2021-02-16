@@ -63,7 +63,7 @@ public class OCPDnf {
     @Consumes("application/json")
     @Produces("application/json")
     @Path("getDNF/{id}")
-    public OcpDnfHistorial getDNF(@QueryParam("id") Long codDNF) {
+    public OcpDnfHistorial getDNF(@PathParam("id") Long codDNF) {
         return this.facade.getDnfById(codDNF);
     }
 

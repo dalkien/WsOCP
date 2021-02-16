@@ -170,6 +170,11 @@ public class OcpProyecto {
     @Setter
     private String usuario;
 
+    @Column(name = "ESTADO", nullable = true)
+    @Getter
+    @Setter
+    private String estado;
+
     public OcpProyecto() {
     }
 
@@ -182,7 +187,7 @@ public class OcpProyecto {
                        Long idTipoServicio, Long idDirector, Long idGerente, Long idTipoAlianza,
                        Long idClasificacionVenta, Long costoPlaneado, Long margenPlanaedo,
                        Long ftePlaneado, Long factorICA, Long factorProvIndem,
-                       String comentarios, Date fecCargue, String usuario) {
+                       String comentarios, Date fecCargue, String usuario, String estado) {
         this.codProyecto = codProyecto;
         this.idCliente = idCliente;
         this.alcance = alcance;
@@ -214,5 +219,6 @@ public class OcpProyecto {
         this.comentarios = comentarios;
         this.fecCargue = fecCargue;
         this.usuario = usuario;
+        this.estado = estado;
     }
 }

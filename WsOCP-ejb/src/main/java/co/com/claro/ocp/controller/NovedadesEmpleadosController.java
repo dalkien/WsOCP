@@ -26,7 +26,11 @@ public class NovedadesEmpleadosController {
             this.novedadesEmpleadosDao .setEntityManager(this.entityManager);
             this.novedadesEmpleadosDao .create(novedades);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+            System.out.println(ex.getMessage());
+            System.out.println(ex.getCause().getMessage());
+            System.out.println(ex.getCause().getCause().getMessage());
+
         }
 
     }

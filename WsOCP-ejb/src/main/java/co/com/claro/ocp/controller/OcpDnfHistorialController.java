@@ -3,6 +3,7 @@ package co.com.claro.ocp.controller;
 import co.com.claro.ocp.dao.OcpDnfHistorialDao;
 import co.com.claro.ocp.entity.NovedadesEmpleados;
 import co.com.claro.ocp.entity.OcpDnfHistorial;
+import com.google.gson.Gson;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -63,10 +64,13 @@ public class OcpDnfHistorialController {
     public OcpDnfHistorial dnfHistorialByid(Long id){
         OcpDnfHistorial dnfHistorial = new OcpDnfHistorial();
         try {
-            dnfHistorial = this.entityManager
-                    .createNamedQuery("OcpDnf_Historial.findById", OcpDnfHistorial.class)
+            Object obj =  this.entityManager
+                    .createNamedQuery("OcpDnf_Historial.findById")
                     .setParameter("id",id)
                     .getSingleResult();
+            Gson gson = new Gson();
+            String objCad = gson.toJson(obj);
+            dnfHistorial = gson.fromJson(objCad,OcpDnfHistorial.class);
         }catch (Exception e){
             e.printStackTrace();
         }

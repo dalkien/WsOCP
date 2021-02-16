@@ -62,7 +62,6 @@ public class OCPNovedadesRest {
             generic.setMessageCode("falla en tarea programada. ");
         }
         return generic;
-
     }
 
     @GET

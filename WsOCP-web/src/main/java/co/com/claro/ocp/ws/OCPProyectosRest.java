@@ -1,5 +1,6 @@
 package co.com.claro.ocp.ws;
 
+import co.com.claro.ocp.dto.CancelUpdate;
 import co.com.claro.ocp.dto.GenericResponse;
 import co.com.claro.ocp.dto.ProyectoCreate;
 import co.com.claro.ocp.dto.ProyectosOcpResponse;
@@ -21,6 +22,7 @@ import javax.ws.rs.Produces;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("OCPProyectos")
 @Stateless
@@ -46,7 +48,9 @@ public class OCPProyectosRest {
         GenericResponse response = new GenericResponse("OK", "OK", "00");
         List<OcpProyecto> proyectos = new ArrayList<>();
         try {
-            proyectos = proyectoIFacade.allProjects();
+            proyectos = proyectoIFacade.allProjects().stream()
+                    .filter(x -> !x.getEstado().equals("INACTIVE"))
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
             response = new GenericResponse(e.getMessage(), "Nok", "99");
@@ -81,6 +85,7 @@ public class OCPProyectosRest {
             relacion.setComentario("LISTADO DE PROYECTOS");
             relacion.setEstadoRelacion(1L);
             relacion.setUsuario(proyecto.getProyecto().getUsuario());
+            proyecto.getProyecto().setEstado("ACTIVE");
             relacion.setFechaCreacion(new Date());
             relacionIFacade.creaRelaParam(relacion);
             proyectoIFacade.createProject(proyecto.getProyecto());
@@ -98,6 +103,24 @@ public class OCPProyectosRest {
     public GenericResponse editProyect(OcpProyecto proyecto) {
         GenericResponse response = new GenericResponse("OK", "OK", "00");
         try {
+            proyectoIFacade.editProject(proyecto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new GenericResponse(e.getMessage(), "Nok", "99");
+        }
+        return response;
+    }
+
+    @PUT
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("editStateProyect")
+    public GenericResponse editEstadotProyect(CancelUpdate cancel  ) {
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
+        try {
+            OcpProyecto proyecto = this.proyectoIFacade.projectById(cancel.getIdMod());
+            proyecto.setUsuario(cancel.getUser());
+            proyecto.setEstado(cancel.getState().equals("I") ? "INACTIVE": "ACTIVE");
             proyectoIFacade.editProject(proyecto);
         } catch (Exception e) {
             e.printStackTrace();

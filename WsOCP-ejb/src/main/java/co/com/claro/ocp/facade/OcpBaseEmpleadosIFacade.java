@@ -9,13 +9,13 @@ import java.util.List;
 public interface OcpBaseEmpleadosIFacade {
 
 
-    public List<OcpBaseEmpleados> allEmpleados();
+    List<OcpBaseEmpleados> allEmpleados();
 
-    public void creaEmpleado(OcpBaseEmpleados empleado);
+    void creaEmpleado(OcpBaseEmpleados empleado);
 
-    public void actualizaEmpleado(OcpBaseEmpleados empleado);
+    void actualizaEmpleado(OcpBaseEmpleados empleado);
 
-    public OcpBaseEmpleados getEmpleado(Long codEmpleado);
+    OcpBaseEmpleados getEmpleado(Long codEmpleado);
 
-    public List<OcpBaseEmpleados> allEmpleadosByProject(List<Long> ids);
+    List<OcpBaseEmpleados> allEmpleadosByProject(List<Long> ids);
 }

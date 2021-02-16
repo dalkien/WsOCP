@@ -5,11 +5,13 @@ package co.com.claro.ocp.ws;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 
+import co.com.claro.ocp.dto.CancelUpdate;
 import co.com.claro.ocp.dto.EmpleadosOcpResponse;
 import co.com.claro.ocp.dto.GenericResponse;
 import co.com.claro.ocp.entity.OcpBaseEmpleados;
 
 
+import co.com.claro.ocp.entity.OcpProyecto;
 import co.com.claro.ocp.facade.OcpBaseEmpleadosIFacade;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
@@ -18,6 +20,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author omarMad
@@ -73,7 +76,9 @@ public class OCP {
         List<OcpBaseEmpleados> empleados = new ArrayList<>();
         GenericResponse response = new GenericResponse();
         try {
-            empleados = ocpBaseEmpleadosIFacade.allEmpleados();
+            empleados = ocpBaseEmpleadosIFacade.allEmpleados()
+                    .stream().filter(x -> !x.getEstado().equals("INACTIVE"))
+                    .collect(Collectors.toList());
             response = genericRta("00", "Ok", "Ok");
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,6 +131,24 @@ public class OCP {
         ocpResponse.setEmpleados(empleados);
         ocpResponse.setResponse(response);
         return ocpResponse;
+    }
+
+    @PUT
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("editStateEmployed")
+    public GenericResponse editEstadotProyect(CancelUpdate cancel  ) {
+        GenericResponse response = new GenericResponse("OK", "OK", "00");
+        try {
+            OcpBaseEmpleados empleado = this.ocpBaseEmpleadosIFacade.getEmpleado(cancel.getIdMod());
+            empleado.setUsuario(cancel.getUser());
+            empleado.setEstado(cancel.getState().equals("I") ? "INACTIVE": "ACTIVE");
+            this.ocpBaseEmpleadosIFacade.actualizaEmpleado (empleado);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response = new GenericResponse(e.getMessage(), "Nok", "99");
+        }
+        return response;
     }
 
     public GenericResponse genericRta(String code, String descripcion, String message) {

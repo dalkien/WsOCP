@@ -111,6 +111,11 @@ public class OcpBaseEmpleados {
     @Setter
     private String usuario;
 
+    @Column(name = "ESTADO", nullable = true)
+    @Getter
+    @Setter
+    private String estado;
+
     public OcpBaseEmpleados() {
     }
 
@@ -118,7 +123,7 @@ public class OcpBaseEmpleados {
                             Date fehcaIngrero, String ingRet, String tipoContrato,
                             String rol, String tipoSalario, Long salario, Long beneficio,
                             Long equipo, String descuento, Long salarioTotal,
-                            Long costoEstMes, String observaciones, Date fecCargue, String usuario) {
+                            Long costoEstMes, String observaciones, Date fecCargue, String usuario,  String estado) {
         this.codEmpleado = codEmpleado;
         this.cedula = cedula;
         this.nombres = nombres;
@@ -136,5 +141,6 @@ public class OcpBaseEmpleados {
         this.observaciones = observaciones;
         this.fecCargue = fecCargue;
         this.usuario = usuario;
+        this.estado = estado;
     }
 }
